@@ -78,8 +78,16 @@
 
 36.先有远程库，再远程克隆到本地  git clone https://github.com/itprwe/itprwe.git  或者  git clone git@github.com:itprwe/itprwe.git
 
+37. git checkout -b dev  创建dev分支，然后切换到dev分支，命令加上-b参数表示创建并切换
 
+38.git branch 查看当前分支，当前分支前面会标一个*号
 
+39.git checkout master 切换到mater分支
 
+40.git merge dev  合并指定分支（dev）到当前分支
+
+41. git branch -d dev 删除dev分支
+
+42. git branch <name> 创建分支
 
 
