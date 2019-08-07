@@ -69,9 +69,14 @@
 32.ssh-keygen -t rsa -C "youremail@example.com" 生成公共私有钥匙，将共有钥匙贴入github中
 
 33.git push -u origin master 把当前分支master推送到远程
-     由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令
+     由于远程库是空的，我们第一次推送master分支时，加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令，
+	 此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改
+	 
+34.git remote -v  查看远程连接的方式
 
+35.git remote rm origin 删除原先HTTPS的连接方式 ，， https的方式不会记住密码，用ssh方式
 
+36.先有远程库，再远程克隆到本地  git clone https://github.com/itprwe/itprwe.git  或者  git clone git@github.com:itprwe/itprwe.git
 
 
 
