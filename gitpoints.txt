@@ -1,0 +1,79 @@
+﻿
+1.记录每次改动
+2.linus 在1991创建了开源的linux
+3.C开发出的git
+4.集中式：版本是集中放在中央服务器中的，需要联网
+5.分布式，每个人的电脑就是一个中央服务器，分布式版本控制系统通常也有一台充当“中央服务器”的电脑，作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便
+6.输入git看是否安装了git
+
+7.因为git是分布式版本控制系统，所以，每个机器要区别，名字和邮件地址（git config --global user.name "Your Name" ; git config --global user.email "Your Email"）
+输入git config --list 查看是否配置了用户信息和邮箱，
+修改配置git config --global --replace-all user.email "输入你的邮箱" 或者 git config --global  user.name "Your name"
+
+8.git config --global 中的文本编辑器，差异分析工具等等
+
+9.git config的增（git config --global --add configName configValue）删（git config  --global --unset configName   (只针对存在唯一值的情况)）改（git config --global configName configValue）查（git config --global configName/--list）
+
+10.git init 把当前目录变为git可以管理的仓库
+
+11.git add  filename/. 告诉Git，把文件添加到仓库(Unix的哲学是“没有消息就是好消息”)，注意，可反复多次使用，添加多个文件
+
+12.git commit  -m <message>告诉Git，把文件提交到仓库(git commit命令，-m后面输入的是本次提交的说明，可以输入任意内容，当然最好是有意义的，这样你就能从历史记录里方便地找到改动记录)
+
+13. git status  命令可以让我们时刻掌握仓库当前的状态，掌握工作区的状态
+
+14.git diff  filename/(不输入)   查看具体修改了什么内容（工作区和版本库对比）
+
+15.git log 查看历史记录，显示从最近到最远的提交日志，git log --pretty=oneline（输出信息太多，看得眼花缭乱的，可以试试加上--pretty=oneline参数）
+
+16.gitbash中可以用clear清屏 
+
+17. git reset --hard HEAD^  回退到上一个版本，首先，Git必须知道当前版本是哪个版本，在Git中，用HEAD表示当前版本，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100
+
+18.git reset --hard 1094a（commit id）  指定回到某个版本
+
+19.git reflog 记录你的每一次命令
+
+20.工作区  暂存区 git当前分支（git add把文件从工作区添加到暂存区，git commit把暂存区的所有内容提交到当前分支）（因为我们创建Git版本库时，Git自动为我们创建了唯一一个master分支，所以git commit就是往master分支上提交更改）
+
+21.每次修改，如果不用git add到暂存区，那就不会加入到commit
+
+22.git checkout -- filename  把文件在工作区的修改全部撤销（自修改后还没有被放到暂存区，撤销修改就回到和版本库一模一样的状态；已经添加到暂存区后，又作了修改，撤销修改就回到添加到暂存区后的状态）
+
+23.git checkout -- filename 命令中的--很重要，没有--，就变成了“切换到另一个分支”的命令
+
+24.git reset HEAD <file> 可以把暂存区的修改撤销掉（unstage），重新放回工作区
+
+25.git rm filename  删除， 然后commit 提交
+
+26.先手动删除文件，然后使用git rm <file>和git add<file>效果是一样的
+
+27.删错了，可以用git reset HEAD    git checkout -- filename 撤回
+
+28.github远程git仓库
+
+29.第1步：创建SSH Key。在用户主目录下，看看有没有.ssh目录，如果有，再看看这个目录下有没有id_rsa和id_rsa.pub这两个文件，如果已经有了，可直接跳到下一步。如果没有，打开Shell（Windows下打开Git Bash），
+				 创建SSH Key：一路回车，可不设置密码，
+                 ssh-keygen -t rsa -C "youremail@example.com"，
+				 可以在用户主目录里找到.ssh目录，里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人；
+	第2步：登陆GitHub，打开“Account settings”，“SSH Keys”页面，然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容，
+				为什么GitHub需要SSH Key呢？因为GitHub需要识别出你推送的提交确实是你推送的，而不是别人冒充的，而Git支持SSH协议，所以，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送。
+				当然，GitHub允许你添加多个Key。假定你有若干电脑，你一会儿在公司提交，一会儿在家里提交，只要把每台电脑的Key都添加到GitHub，就可以在每台电脑上往GitHub推送了。
+				在GitHub上免费托管的Git仓库，任何人都可以看到（但只有你自己才能改）。所以，不要把敏感信息放进去。
+
+30.在本地有一个仓库，又在github建了一个仓库，将两个关联起来，然后，把本地仓库的内容推送到GitHub仓库
+	git remote add origin git@github.com:itprwe/itprwe.git    --（git@github.com:itprwe（github账号名）/itprwe（github要关联的仓库名）.git）
+
+31.添加后，远程库分支的名字就是origin，这是Git默认的叫法，也可以改成别的，但是origin这个名字一看就知道是远程库分支
+
+
+
+
+
+
+
+
+
+
+
+
