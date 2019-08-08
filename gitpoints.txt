@@ -25,6 +25,7 @@
 14.git diff  filename/(不输入)   查看具体修改了什么内容（工作区和版本库对比）
 
 15.git log 查看历史记录，显示从最近到最远的提交日志，git log --pretty=oneline（输出信息太多，看得眼花缭乱的，可以试试加上--pretty=oneline参数）
+	按 q 键退出
 
 16.gitbash中可以用clear清屏 
 
@@ -104,4 +105,6 @@
 你和你的小伙伴们每个人都在dev分支上干活，每个人都有自己的分支，时不时地往dev分支上合并就可以了
 合并分支时，加上--no-ff参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而fast forward合并就看不出来曾经做过合并
 
-45.
+45.git merge（就是 git merge -ff）和git merge --no-ff的区别：
+	通常我们把 master 作为主分支，上面存放的都是比较稳定的代码，提交频率也很低，而 develop 是用来开发特性的，
+	上面会存在许多零碎的提交，快进式合并会把 develop 的提交历史混入到 master 中，搅乱 master 的提交历史
