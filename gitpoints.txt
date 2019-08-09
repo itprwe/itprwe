@@ -108,3 +108,8 @@
 45.git merge（就是 git merge -ff）和git merge --no-ff的区别：
 	通常我们把 master 作为主分支，上面存放的都是比较稳定的代码，提交频率也很低，而 develop 是用来开发特性的，
 	上面会存在许多零碎的提交，快进式合并会把 develop 的提交历史混入到 master 中，搅乱 master 的提交历史
+	用git merge 则分支提交历史会并到master分支上面
+	
+46.bug修复，新建临时分支修复bug，然后合并分支，然后删除临时分支
+
+47.git stash 当前工作现场“储藏”起来，等以后恢复现场后继续工作
