@@ -133,4 +133,14 @@
 	 bug分支只用于在本地修复bug，就没必要推到远程了，除非老板要看看你每周到底修复了几个bug；
 	 feature分支是否推到远程，取决于你是否和你的小伙伴合作在上面开发；
 	
-55.
+55.git clone  本地没有 repository 时，将远程 repository 整个下载过来（从远程服务器克隆一个一模一样的版本库到本地,复制的是整个版本库 --clone是将一个库复制到你的本地，是一个本地从无到有的过程）
+
+56. git pull = git fetch + git merge  （git pull #远程主机（origin） #远程分之(next)#：#本地分之(master) ）；
+	  如果远程分支是与当前分支合并，则冒号后面的部分可以省略，git pull #远程主机(origin)#　 #远程分之(next)#　相当于1. $ git fetch origin   2.$git merge origin/next ；
+	  是本地有 repository 时，将远程 repository 里新的 commit 数据(如有的话)下载过来，并且与本地代码merge（从远程服务器获取到一个branch分支的更新到本地，并更新本地库 --pull是指同步一个在你本地有版本的库内容更新的部分到你的本地库）；
+	  git clone 的时候，所有本地分之默认与远程主机的同名分之，建立追踪关系，也就是，本地的master分之自动“追踪”origin/master分之；
+	  git 可以手动建立追踪， git branch --set-upstream master origin/next   --->指定master分之追踪到origin/next；
+	  如果当前分支只有一个追踪分支，连远程主机名都可以省略。$ git pull  表示当前分之自动与唯一一个追踪分之进行合并
+
+	  
+	  
