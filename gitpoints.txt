@@ -141,6 +141,3 @@
 	  git clone 的时候，所有本地分之默认与远程主机的同名分之，建立追踪关系，也就是，本地的master分之自动“追踪”origin/master分之；
 	  git 可以手动建立追踪， git branch --set-upstream master origin/next   --->指定master分之追踪到origin/next；
 	  如果当前分支只有一个追踪分支，连远程主机名都可以省略。$ git pull  表示当前分之自动与唯一一个追踪分之进行合并
-
-	  
-	  
