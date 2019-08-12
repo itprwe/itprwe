@@ -257,4 +257,20 @@ merge<branch> into your current HEAD
 $ git merge <branch>
 rebase your current HEAD onto <branch>
 $ gitrebase --abort
+continue a rebase after resolving conflicts
+$ git mergetool
+use your editor to manually solve conflicts and (after resolving) mark file as resolved
+$ git add <resolved-file>
+$ git rm <resolved-file>
+
+7.undo
+discard all local changes in your working directory
+$ git reset -- hard HEAD
+discard local changes in a specific file
+$ git checkout HEAD <file>
+revert a commit (by producing a new commit with contrary changes)
+$ git revert <commit>
+reset your HEAD pointer to a previous commit and discard all changes since then
+$ git reset --hard <commit>
+
 
