@@ -115,3 +115,7 @@
 47.git stash 当前工作现场“储藏”起来，等以后恢复现场后继续工作
 
 48.git stash  list查看工作现场存到什么地方了
+
+49.git stash apply恢复，恢复后stash内容并不删除，用git stash drop删除 或者 git stash pop恢复的同时把stash内容也删了
+
+50.
