@@ -436,3 +436,122 @@ $ git remote rm <主机名>
 
 git remote rename命令用于远程主机的改名。
 $ git remote rename <原主机名> <新主机名>
+
+
+======================
+
+
+remote 远程 
+
+repository 本地仓库
+
+stage 暂存区
+
+workspace 工作区
+
+=========================
+git pull
+1.远程分支本地没有
+只有这个可以用：git pull origin dev:dev 可以将远程分支dev拉下且本地建立分支dev，但是没有建立本地远程的联系
+
+2.远程分支本地分支有，但是没有联系（两个及以上分支）
+与对应分支建立联系可用 git pull 
+或者 git pull origin dev /  git pull origin dev:dev 可用，但是没有建立联系
+git pull origin 只适用于有默认的分支
+
+3.远程分支与本地分支有联系，但是比本地新或者比本地旧
+未建立联系则 git pull origin dev 
+建立联系后可以 git pull / git pull  origin
+ 
+4.远程分支与本地分支相同
+
+已有追踪关系情况下：git branch -vv
+git pull 当前分支只有一个追踪分支
+
+git pull origin 当前分支与origin的追踪分支对应，且当前分支为远程分支对应的默认分支
+
+git pull origin dev 远程分支dev与当前分支合并
+
+git pull origin dev:dev 远程origin的dev与本地dev合并
+
+如果没有追踪关系，则git pull每次都会提示要建立追踪关系
+（git branch --set-upstream-to=origin/dev dev）
+
+=================================
+git fetch 
+获取远程最新到本地，但是文件内容不会更新，需要merge，本地主机上要用“远程主机名/分支名”的形式读取
+git merge orgin/master
+
+git fetch后
+可以在此origin/master的基础上创建新的分支：
+git checkout -b newBranch origin/master 与远程master建立了联系
+
+git fetch orgin master 将远程仓库的master分支下载到本地当前branch中
+git log -p master  ..origin/master //比较本地的master分支和origin/master分支的差别
+git merge origin/master //进行合并
+
+git fetch origin master:tmp //从远程仓库master分支获取最新，在本地建立tmp分支
+git diff tmp //將當前分支和tmp進行對比
+git merge tmp //合并tmp分支到当前分支
+
+=========================================
+git push
+git push  如果当前分支只有一个追踪分支，那么主机名都可以省略
+
+git push orign  如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略
+
+git push origin dev 如果省略远程分支名，则表示将本地分支推送至与之存在“追踪关系”的远程分支（通常两者同名），如果该远程分支不存在，则会被新建
+
+git push origing dev:dev 推送本地分支到远程分支
+
+远程分支不存在 （git push origin :dev  /  git push --delete dev 删除远程分支）
+git push / git push origin 不可用
+git push origin dev  /  git push origing dev:dev 推送且新建了远程分支dev
+
+远程分支存在，且相联系
+git push / git push orign 当前只有一份分支追踪关系
+git push origin dev / git push origing dev:dev
+
+远程分支跟本地分支一样版本
+无变化
+
+远程分支跟本地分支版本不同
+必须先pull后才能push
+
+远程分支与本地分支不关联
+git push / git push origin 无法使用需要 需要关联
+git push origin dev  /  git push origing dev:dev 可以用，但是不会建立联系
+
+建立联系
+git push -u origin dev -u参数使用一次后建立联系
+或者git branch --set-upstream-to=origin/dev dev
+
+
+=========================
+
+git pull <远程主机名> <远程分支名>：<本地分支名> 
+git push<远程主机名> <本地分支名>：<远程分支名> 
+两个的不同要注意
+
+===================================
+git clone <版本库的网址>
+git clone <版本库的网址> <本地目录名>
+git clone -o <远程主机名> <版本库的网址>
+clone下来的仓库默认分支（master）与本地分支master有追踪关系，其他远程分支不被建立到本地
+
+=================================
+
+git remote -v
+git remote show <主机名>
+git remote add <主机名> <网址> 本地仓库与远程仓库建立联系
+git remote rm <主机名> 删除远程主机
+git remote rename <原主机名> <新主机名>
+
+
+
+
+
+
+
+
+
