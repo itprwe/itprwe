@@ -1,0 +1,48 @@
+﻿other points
+
+1.cls清屏（clear screen），按上键可出来之前内容，，ctrl+C立即换行，跳过不执行
+
+2.新建文件夹mkdir，pwd显示当前路径
+
+3.vi分为三种模式：命令模式（command mode--控制屏幕光标的移动，字符、字或行的删除，移动复制某区段及进入Insert mode下，或者到 last line mode）、
+							插	入模式（Insert mode--只有在Insert mode下，才可以做文字输入，按「ESC」键可回到命令行模式）、
+							底行模式（last line mode--将文件保存或退出vi，也可以设置编辑环境，如寻找字符串、列出行号……等）；
+							不过一般我们在使用时把vi简化成两个模式，就是将底行模式（last line mode）也算入命令行模式command mode）
+							
+							按下i键，或者inser键进入插入模式（可编辑文本）
+							退出文本编辑模式，并且保存，首先点击一下ESC，输入:wq，就可以保存；不想保存，按ESC，输入:q!
+							如果不确定是否编辑成功，可通过cat filename来查看
+														
+							光标的移动除了键盘上的上下左右键.也可以是小写模式下,按键盘上的"h,j,k,l",
+							"ctrl+b":屏幕往后移动一页
+							"ctrl+f":屏幕往前移动一页
+							"ctrl+u":屏幕往后移动半页
+							"ctrl+d":屏幕往前移动半页
+
+							输入任何一个整数,然后输入"shift+G" 就可以到这一页的开头了.
+							按键盘上的大写"G"移动到文章的最后.
+							按"$"符号将光标移动到行尾
+							"^"将光标移到行头
+							"w":将光标移到下一行头
+							"b":跟"w"相反.移到上一行行头
+							"e":将光标移到下一行尾.
+							如果想让文本显示行号.就在命令行 模式下,在文本最后输入":set nu"命令.就可以了
+
+4.touch xxx.txt     vi xxx.txt  创建txt文件，在无法创建TXT的目录应该命令之前加入sudo
+
+5.问题：git在执行git add命令时出现以下警告：
+			warning: LF will be replaced by CRLF in test1.txt. The file will have its original line endings in working directory
+
+  原因：因为Git的换行符检查功能。LF是linux下的换行符，而CRLF是enter + 换行。
+			Git提供了一个换行符检查功能（core.safecrlf），可以在提交时检查文件是否混用了不同风格的换行符。这个功能的选项如下：
+			false - 不做任何检查
+			warn - 在提交时检查并警告
+			true - 在提交时检查，如果发现混用则拒绝提交
+			建议使用最严格的 true 选项。
+			假如你正在Windows上写程序，又或者你正在和其他人合作，他们在Windows上编程，而你却在其他系统上，在这些情况下，你可能会遇到行尾结束符问题。这是因为Windows使用回车和换行两个字符来结束一行，而Mac和Linux只使用换行一个字符。虽然这是小问题，但它会极大地扰乱跨平台协作
+			
+6.rm filename 删除文件
+
+7.在一台电脑上怎么克隆多个仓库，怎样搭git服务器
+
+8.taskkill /pid 1988 /f
