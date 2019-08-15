@@ -1,0 +1,22 @@
+﻿#java note
+--IDEA、Eclipse等开发工具基本使用
+快捷键 jdk tomcat 
+git 
+1.setting中加入git.exe
+2..ignore插件使用，（安装，选中项目，new file 选择.gitignore file，然后选择要忽略的文件，选怎默认的，也可自己写入要忽略文件）
+3.
+idea中的git到远程与，git bash到远程
+创建项目，
+vcs中import into version control(git create git repository)---git init
+右击项目git add ----- git add 文件
+右击项目git commit ----- git commit -m "XXX"   //将项目添加到本地仓库
+右击项目git-repository-push-----git remote add origin git@github.com:itprwe/mygit.git  --> git push -u origin master //先建立连接，然后push（如果当前分支只有一个追踪分支，那么主机名都可以省略。 
+$ git push 如果当前分支与多个主机存在追踪关系，那么这个时候-u选项会指定一个默认主机，这样后面就可以不加任何参数使用git push）
+
+svn 
+java project  
+maven project 
+web project
+
+
+--基础语法（语言基础使用方式）
