@@ -66,3 +66,116 @@ web project
 
 
 --基础语法（语言基础使用方式）
+
+
+===============java web project====================
+Java Web技术的核心基础，Servlet的工作原理https://www.cnblogs.com/rocomp/p/4808924.html
+一、Servlet简介
+        Servlet是Server与Applet的缩写，是服务端小程序的意思。是SUN公司提供的一门用于开发动态Web资源的技术。目前最新版本为3.1。
+        Servlet本质上也是Java类，但要遵循Servlet规范进行编写，没有main()方法，它的创建、使用、销毁都由Servlet容器进行管理(如Tomcat)。
+        Servlet是和HTTP协议是紧密联系的，其可以处理HTTP协议相关的所有内容。这也是Servlet应用广泛的原因之一。
+        提供了Servlet功能的服务器，叫做Servlet容器，其常见容器有很多，如Tomcat, Jetty, resin, Oracle Application server, WebLogic Server, Glassfish, Websphere, JBoss等。
+
+idea中创建webProject
+1.new web application 
+2.在web/WEB-INF下创建两个文件夹：classes（.class文件存放位置）和lib（整个项目所用到的JAR文件存放位置）
+
+3.配置文件夹路径File -> Project Structure (快捷键：Ctrl + Shift + Alt + S) -> 选择Module ： 
+   选择 Paths -> 选择"Use module compile output path" -> 将Output path和Test output path都选择刚刚创建的classes文件夹（目的：在构建项目时，能将.class文件输出至 classes 文件夹中）。
+   在下面的JavaDoc中添加web目录下的 lib文件夹
+   
+4.接着选择Dependencies ->  将Module SDK选择为1.7 -> 点击右边的“+”号  -> 选择1 “Jars or Directories” -> 选择刚刚创建的lib文件夹-> 选择“jar directory” -> 接着返回一路OK，
+   添加web目录下的lib文件夹以及Tomcat的Library
+   
+4.1Facets，在Deployment Descriptor中添加 web.xml 文件（在Facets中，Web Resource Directories 需要定位到拥有全部web项目资源的文件夹，在不同的工程中或许有不同的名称，在上面所述的例子中，需要定位到web文件夹）
+
+4.2Artifacts，点击 Artifacts选项卡，IDEA会为该项目自动创建一个名为“JavaWeb:war exploded”的打包方式，表示 打包成war包，并且是文件展开性的，输出路径为当前项目下的 out 文件夹，保持默认即可，
+     勾选 Include in project build （生成项目（Ctrl+F9）的时候就会生成war包）和 Show content of elements （显示详细的内容列表）两个选项，点击OK
+
+5.配置Tomcat容器，打开菜单Run -> 选择Edit Configuration ，点击“+”号 -> 选择“Tomcat Server” -> 选择“Local”，
+   在"Name"处输入新的服务名，点击"Application server"后面的"Configure..."，弹出Tomcat Server窗口，选择本地安装的Tomcat目录，
+   在"Run/Debug Configurations"窗口的"Server"选项板中，取消勾选"After launch"，设置"HTTP port"和"JMX port"（默认值即可），点击 Apply
+   
+6.在Tomcat中部署并运行项目 ，Run -> Edit Configurations，进入"Run/Debug Configurations"窗口 -> 选择刚刚建立的Tomcat容器 -> 选择Deployment -> 点击右边的“+”号 -> 选择Artifact，
+   ->选择web项目 -> Application context可以填“/hello”(其实也可以不填的）
+   
+7.编辑index.jsp文件
+8.运行Tomcat,在浏览器中查看运行结果 
+
+=================web servlet===================
+定义：
+狭义的 Servlet 是指 Java 语言实现的一个接口，广义的 Servlet 是指 任何实现了这个 Servlet 接口的类，一般情况下，人们将 Servlet 理解为后者。 Servlet 运行于支持 Java 的应用服务器中。
+从原理上讲，Servlet 可以响应任何 类型的请求，但绝大多数情况下 Servlet 只用来扩展基于 HTTP 协议的 Web 服 务器，运行在支持java的应用服务器上 。
+Servlet的实现遵循了服务器能够识别的规则，也就是服务器会自动 的根据请求调用对应的servlet进行请求处理。
+sun公司提供的一套规范（接口），用来处理客户端请求、响应给浏览器的动态资源。但servlet的实质就是java代码，通过java的API动态的向客户端输出内容。
+servlet规范：包含三个技术点
+1）servlet技术
+2）filter技术---过滤器
+3）listener技术---监听器
+servlet类只能游Tomcat服务器运行
+使用：
+1、 创建普通的java 类并继承HttpServlet
+2、 覆写service方法或者覆盖doGet和doPost 
+3、 在service方法或者doGet和doPost 中书写逻辑代码即可
+4、 在webRoot下的WEB-INF文件夹下的web.xml 文件中配置servlet
+运行流程:
+url：http://localhost:8080/project/my2  ，服务器地址:端口号/虚拟项目名 /servlet的别名
+URI：虚拟项目名 /servlet的别名  ，浏览器发送请求到服务器，服务器根据请求URL地址 中的URI信息在webapps目录下找到对应的项目文件夹， 然后在web.xml中检索对应的servlet，找到后调用并执行 Servlet。
+
+web.xml配置：
+<!--配置Servlet  -->
+         <!--配置servlet类路径  -->
+         <servlet>
+             <servlet-name>Myservlet</servlet-name>
+             <servlet-class>com.servlet.MyServlet</servlet-class>
+         </servlet>
+         <!--配置访问方式  -->
+         <servlet-mapping>
+             <servlet-name>MyServlet</servlet-name>
+             <url-pattern>/my</url-pattern>
+         </servlet-mapping>
+<servlet>和<servlet-Mapping>，这两个一个是配置Servlet，一个是配置其映射信息，其中<servlet>中的<servlet-name>可以随意指定，但要有一定的意义，一般取为类的名称，例如我的类名为MyServlet，
+这里取名为MyServlet,下面的<servlet-class>是类的全路径，package+calssname，一定要是全路径。
+<servlet-Mapping>是映射信息，它也有一个<servlet-name>，里面的名字是对应的Servlet名，也就是我们上面配置的Servlet名字，这里是MyServlet，下面的是映射路径，也就是访问Servlet的名称，
+这里也是以方便和有意义为前提的，是我们在访问Servlet在浏览器地址栏后面输入的那个信息，例如我的映射路径命名为/my，在地址栏中输入http://localhost/20181210/my。
+通过url-pattern找到servlet-name，再通过servlet-name找到servlet-class ，再通过反射构造对应servlet类的对象，再调用里面的方法。
+个已经注册的Servlet可以被多次映射。可以有多个<url-pattern></url-pattern>映射到同一个类上面。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+servlet中常见问题
+https://blog.csdn.net/gongxifacai_believe/article/details/78798180
+
+servlet中避免405错误的产生
+https://www.cnblogs.com/z0228-0322x/p/6155585.html
+ 第一种：重写父类的service方法，必须去掉super.service(req, resp);
+ 第二种：重写父类的doGet(去掉super.doGet();)、doPost(去掉super.doPost();)方法,调用父类的service方法
+ 
+ Servlet（三）：生命周期、常用方法、常见错误
+https://www.cnblogs.com/jiulonghudefeizhai/p/10103851.html
+
+doGet方法只能处理Get方式提交的请求，doPost则可以处理Post方式提交的请求，
+一种既可以处理Get方式又可以处理Post方式的提交的请求，它就是Service方法
+
+ 如果在覆写的service方法中调用了父类的service方法(super.service(arg0, arg1)),则service方法处理完后，会再次根据请求方式响应的doGet和doPost方法执行。
+ 所以，一般情况下 我们是不在覆写的service中调用父类的service方法的，避免出现405错误。如果调用了则在doget方法中去掉super.doget()方法
+
+=====
+Java的打包jar、war、ear包的作用与区别
+i.  jar：通常是开发时要引用通用(JAVA)类，打成包便于存放管理；
+ii. war：是做好一个(web)应用后，通常是网站，打成包部署到容器中；
+iii. ear： 企业级应用，实际上EAR包中包含WAR包和几个企业级项目的配置文件而已，一般服务器选择WebSphere等，都会使用EAR包。通常是EJB打成ear包。
+将web项目以war的方式导出后，直接放在tomcat容器的webapps下 ，启动服务，即可运行该项目，该war包会自动解压出一个同名的文件夹。
+
+
