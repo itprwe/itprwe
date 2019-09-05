@@ -102,8 +102,15 @@ idea中创建webProject
 7.编辑index.jsp文件
 8.运行Tomcat,在浏览器中查看运行结果 
 
-=================web servlet===================
-定义：
+===============================
+Java的打包jar、war、ear包的作用与区别
+i.  jar：通常是开发时要引用通用(JAVA)类，打成包便于存放管理；
+ii. war：是做好一个(web)应用后，通常是网站，打成包部署到容器中；
+iii. ear： 企业级应用，实际上EAR包中包含WAR包和几个企业级项目的配置文件而已，一般服务器选择WebSphere等，都会使用EAR包。通常是EJB打成ear包。
+将web项目以war的方式导出后，直接放在tomcat容器的webapps下 ，启动服务，即可运行该项目，该war包会自动解压出一个同名的文件夹。
+
+=============================web servlet===================================
+一. 定义：
 狭义的 Servlet 是指 Java 语言实现的一个接口，广义的 Servlet 是指 任何实现了这个 Servlet 接口的类，一般情况下，人们将 Servlet 理解为后者。 Servlet 运行于支持 Java 的应用服务器中。
 从原理上讲，Servlet 可以响应任何 类型的请求，但绝大多数情况下 Servlet 只用来扩展基于 HTTP 协议的 Web 服 务器，运行在支持java的应用服务器上 。
 Servlet的实现遵循了服务器能够识别的规则，也就是服务器会自动 的根据请求调用对应的servlet进行请求处理。
@@ -113,7 +120,8 @@ servlet规范：包含三个技术点
 2）filter技术---过滤器
 3）listener技术---监听器
 servlet类只能游Tomcat服务器运行
-使用：
+
+二. 使用：
 1、 创建普通的java 类并继承HttpServlet
 2、 覆写service方法或者覆盖doGet和doPost 
 3、 在service方法或者doGet和doPost 中书写逻辑代码即可
@@ -122,7 +130,7 @@ servlet类只能游Tomcat服务器运行
 url：http://localhost:8080/project/my2  ，服务器地址:端口号/虚拟项目名 /servlet的别名
 URI：虚拟项目名 /servlet的别名  ，浏览器发送请求到服务器，服务器根据请求URL地址 中的URI信息在webapps目录下找到对应的项目文件夹， 然后在web.xml中检索对应的servlet，找到后调用并执行 Servlet。
 
-web.xml配置：
+三. web.xml配置：
 <!--配置Servlet  -->
          <!--配置servlet类路径  -->
          <servlet>
@@ -141,41 +149,206 @@ web.xml配置：
 通过url-pattern找到servlet-name，再通过servlet-name找到servlet-class ，再通过反射构造对应servlet类的对象，再调用里面的方法。
 个已经注册的Servlet可以被多次映射。可以有多个<url-pattern></url-pattern>映射到同一个类上面。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-servlet中常见问题
+四. servlet中常见问题：
 https://blog.csdn.net/gongxifacai_believe/article/details/78798180
+https://www.cnblogs.com/jiulonghudefeizhai/p/10103851.html
 
-servlet中避免405错误的产生
+五. Servlet运行原理：
+      比如，在浏览器地址栏输入http://ip:port/web01/hello，整个通信流程如下图所示：
+      分步解释：
+      （1）浏览器依据ip,port建立与servlet容器(容器同时也是一个简单的web服务器)之间的连接。
+      （2）浏览器将请求数据打包(按照http协议,该数据包也称为请求数据包)。
+      （3）浏览器发送请求数据包给容器。
+      （4）容器收到请求数据包之后，解析该数据包
+      （5）将4中解析之后得到的数据封装到request对象上，同时，容器还要创建response对象。
+      （6）容器要依据请求资源路径("/web01/hello")找到servlet的配置，然后创建servlet对象。
+      （7）容器调用servlet对象的service方法。容器会将事先创建好的request,response作为参数传递给service方法。
+      （ 8-10）在service方法里面，可以通过request对象获得请求参数，并进行相应的处理，处理结果会放到response对象里面。
+      （11-13）容器从response对象中取出处理结果，然后打包(按照http协议，该数据包称之为响应数据包)。再将响应数据包发送给浏览器。
+      （14-15）浏览器收到响应数据包之后，解析处理结果，然后生成相应的页面。
+其实Java Web开发人员需要手动编写代码的部分主要在8-10，因为其他部分工作已被web服务器和开发工具完成。
+
+六. request和response对象：
+request对象
+解释：
+　　服务器接收到浏览器的请求后，会创建一个Request对象，对象中 存储了此次请求相关的请求数据。服务器在调用  　　Servlet时会将创建的 Request对象作为实参传递给Servlet的方法，比如：service方法。
+使用：
+　　 获取请求头数据
+　　　　　　 req.getMethod();//获取请求方式
+　　　　　　 req.getRequestURL();//获取请求URL信息
+　　　　　　 req.getRequestURI();//获取请求URI信息
+
+　　　　　　 req.getScheme();//获取协议
+        获取请求行数据
+　　　　　     req.getHeader("键名");//返回指定的请求头信息
+　　　　　　 req.getHeaderNames();//返回请求头的键名的枚举集合
+ 　　获取用户数据
+　　　　　　 req.getParameter("键名");//返回指定的用户数据
+ 　　　　　　req.getParameterValues("键名");//返回同键不同值的请求数据(多选)，返回的数组。
+ 　　　　　　req.getParameterNames()//返回所有用户请求数据的枚举集合
+ 注意：
+ 　　 request对象由tomcat服务器创建，并作为实参传递给处理请求的servlet的service方法。
+ 
+Response对象：
+问题：
+　　在使用Request对象获取了请求数据并进行处理后，处理的结果如何显 示到浏览器中呢？
+解决：
+　　使用Response对象
+解释：
+　　服务器在调用指定的Servlet进行请求处理的时候，会给Servlet的方 法传递两个实参request和response。其中request中封存了请求相关的 请求数据，而response则是用来进行响应的一个对象。
+使用：
+　　设置响应头
+　　　　　　setHeader(String name,String value);//在响应头中添加响应信息，但是同键会覆盖
+　　　　　　addHeader(String name,String value);//在响应头中添加响应信息，但是不会覆盖。
+　　设置响应编码格式  
+　　　　　　sendError(int num,String msg);//自定义响应状态码。
+　　设置响应实体
+ 　　　　　　resp.getWrite().write(String str);//响应具体的数据给浏览器
+　　设置响应编码格式：
+　　　　　　resp.setContentType("text/html;charset=utf-8");
+
+七. 请求转发和重定向：
+请求转发学习：
+ *        作用:实现多个servlet联动操作处理请求，这样避免代码冗余，让servlet的职责更加明确。
+ *        使用：
+ *                req.getRequestDispatcher("要转发的地址").forward(req, resp);
+ *                地址：相对路径，直接书写servlet的别名即可。
+ *        特点:
+ *            一次请求，浏览器地址栏信息不改变。
+ *        注意：
+ *            请求转发后直接return结束即可。
+ *reuqet作用域：
+ *        解决了一次请求内的servlet的数据共享问题
+ *重定向：
+ *        解决了表单重复提交的问题，以及当前servlet无法处理的请求的问题。
+ *        使用:
+ *            resp.sendRedirect(String uri);
+ *        示例:
+ *            resp.sendRedirect("/login/main");
+ *        特点：
+ *            两次请求，两个request对象。
+ *            浏览器地址栏信息改变
+ *        时机：
+ *            如果请求中有表单数据，而数据又比较重要，不能重复提交，建议使用重定向。
+ *            如果请求被Servlet接收后，无法进行处理，建议使用重定向定位到可以处理的资源。
+
+八. Cookie：
+问题：
+　　HTTP 协议是没有记忆功能的，一次请求结束后，相关数据会被销毁。如果第二次的请求需要使用相同的请求数据怎么办呢？难道是让用户再次请求书写吗?
+解决：
+　　使用 Cookie 技术
+解释：
+　　Cookie 技术其实是浏览器端的数据存储技术，解决了不同请求需要使用相同的请求数据的问题。我们把请求需要共享的请求数据，存储在浏览器端，避免用户进行重复的书写请求数据。但是哪些数据需要使用 Cookie 技术存储起来是一个主观问题，需要在后台进行响应的时候来告诉浏览器，有些数据其他请求还会使用，需要存储起来。
+特点：
+　　浏览器端的数据存储技术
+　　适合少量数据
+　　键值对
+　　不安全
+使用：
+　　Cookie 数据存储：
+　　　　　　　　　　临时存储：
+　　　　　　　　　　　　不设置 cookie 信息的存储时间，周期为一次会话，
+　　　　　　　　　　存储在浏览器内存中
+　　　　　　　　　　定时存储：
+　　　　　　　　　　　　设置存储时间，周期为时间设置，存储在用户电脑中。
+　　Cookie 数据获取：
+总结：
+　　Cookie 技术解决了不同请求发送之间的数据共享问题
+
+九. session:
+问题：
+　　Request 对象解决了一次请求内的不同 Servlet 的数据共享问 题，那么一个用户的不同请求的处理需要使用相同的数据怎么办呢?
+解决：
+　　使用 session 技术。
+原理：
+　　用户使用浏览器第一次向服务器发送请求，服务器在接受到请求后，调用对应的 Servlet 进行处理。在处理过程中会给用户创建 一个 session 对象，用来存储用户请求处理相关的公共数据，并将 此 session 对象的 JSESSIONID 以 Cookie 的形式存储在浏览器中 (临时存储，浏览器关闭即失效)。用户在发起第二次请求及后续请 求时，请求信息中会附带 JSESSIONID，服务器在接收到请求后， 调用对应的 Servlet 进行请求处理，同时根据 JSESSIONID 返回其 对应的 session 对象。
+
+特点：
+　　Session 技术是依赖 Cookie 技术的服务器端的数据存储技术。
+　　由服务器进行创建
+　　每个用户独立拥有一个 session 默认存储时间为 30 分钟
+作用：
+　　解决了一个用户的不同请求的数据共享问题。
+使用：
+　　创建 Session 对象 存储数据到 session 对象 获取 session 对象 获取数据从 session 对象 如果获取 session 中不存在的数据返回 null。
+注意：
+　　只要不关闭浏览器，并且 session 不失效的情况下，同一个用 户的任意请求在项目的任意Servlet中获取到的都是同一个session对象。
+
+作用域：
+　　一次会话
+
+十. ServletContext对象和ServletConfig对象:
+问题：
+　　Request 解决了一次请求内的数据共享问题，session 解决了用户不同请求的数据共享问题，那么不同的用户的数据共享该怎么办呢？
+解决：
+　　使用 ServletContext 对象
+作用：
+　　解决了不同用户的数据共享问题
+原理：
+　　ServletContext 对象由服务器进行创建，一个项目只有一个对象。不管在项目的任意位置进行获取得到的都是同一个对象，那么不同用户发起的请求获取到的也就是同一个对象了，该对象由用户共同拥有。
+特点：
+　　服务器进行创建
+　　用户共享
+　　一个项目只有一个
+生命周期：
+　　服务器启动到服务器关闭
+作用域：
+　　项目内
+使用：
+　　获取 ServletContext 对象
+　　使用作用域进行共享数据流转
+　　获取 web.xml 中的全局配置
+　　获取 webroot 下项目资源流对象
+　　获取 webroot 下资源绝对路径
+案例：网页浏览器次数统计，详见源码
+
+十一. web.xml文件和server.xml文件:
+作用：
+　　存储项目相关的配置信息，保护 Servlet。解耦一些数据对程序的依赖。
+使用位置：
+　　每个 Web 项目中Tomcat 服务器中(在服务器目录 conf 目录中)
+区别：
+　　Web 项目下的 web.xml 文件为局部配置，针对本项目的位置。
+　　Tomcat 下的 web.xml 文件为全局配置，配置公共信息。
+内容(核心组件)：
+　　全局上下文配置(全局配置参数)
+　　Servlet 配置
+　　过滤器配置
+　　监听器配置
+加载顺序：
+　　Web 容器会按 ServletContext -> context-param -> listener ->filter-> servlet 这个顺序加载组件，这些元素可配置在 web.xml文件中的任意位置。
+加载时机：
+　　服务器启动时。
+server.xml 文件：
+问题：
+　　浏览器发起请求后，服务器根据请求在 webapps 目下调用对应的 Servlet 进行请求处理。那么为什么是 webapps 目录难道不能是其他的目录吗？
+解决：
+　　了解 server.xml 文件的配置信息
+Server.xml 文件核心组件：
+　　<Server>
+　　　　<Service>
+　　　　　　<Connector/>
+　　　　　　<Connector/>
+　　　　　　<Engine>
+　　　　　　　　<Host>
+　　　　　　　　　　<Context/>
+　　　　　　　　 </Host>
+　　　　　　</Engine>
+　　　　 </Service>
+　　</Server>
+热部署： <Context path="/Pet" reloadable="true" docBase="F:/PetWeb"
+
+https://www.bbsmax.com/A/1O5EYXKn57/
+
+十二. servlet中避免405错误的产生：
 https://www.cnblogs.com/z0228-0322x/p/6155585.html
  第一种：重写父类的service方法，必须去掉super.service(req, resp);
  第二种：重写父类的doGet(去掉super.doGet();)、doPost(去掉super.doPost();)方法,调用父类的service方法
- 
- Servlet（三）：生命周期、常用方法、常见错误
-https://www.cnblogs.com/jiulonghudefeizhai/p/10103851.html
-
 doGet方法只能处理Get方式提交的请求，doPost则可以处理Post方式提交的请求，
 一种既可以处理Get方式又可以处理Post方式的提交的请求，它就是Service方法
-
  如果在覆写的service方法中调用了父类的service方法(super.service(arg0, arg1)),则service方法处理完后，会再次根据请求方式响应的doGet和doPost方法执行。
  所以，一般情况下 我们是不在覆写的service中调用父类的service方法的，避免出现405错误。如果调用了则在doget方法中去掉super.doget()方法
 
-=====
-Java的打包jar、war、ear包的作用与区别
-i.  jar：通常是开发时要引用通用(JAVA)类，打成包便于存放管理；
-ii. war：是做好一个(web)应用后，通常是网站，打成包部署到容器中；
-iii. ear： 企业级应用，实际上EAR包中包含WAR包和几个企业级项目的配置文件而已，一般服务器选择WebSphere等，都会使用EAR包。通常是EJB打成ear包。
-将web项目以war的方式导出后，直接放在tomcat容器的webapps下 ，启动服务，即可运行该项目，该war包会自动解压出一个同名的文件夹。
+
 
 
