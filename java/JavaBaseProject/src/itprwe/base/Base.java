@@ -28,12 +28,24 @@ import java.util.*;
  * 		基本了解常用API的原理实现,了解常用API时间与空间复杂度
  *
  * 		以上均不区分语言,搞清楚C#与Java API的映射关系即可熟练掌握。
+ *
+ *
+ *
+ * 数组
+ * 集合 Collection
+ *          List(LinkedList,ArrayList,Vector(Stack))
+ *          Set(HashSet,LinkedHashSet,TreeSet)
+ *          Queen()
+ *     Map(Hashtable,HashMap,LinkedHashMap,WeakHashMap,TreeMap,IdentifyMap)
+ *
+ * 泛型
  */
 public class Base {
 
     public static void main(String[] args) {
         System.out.println("hhhh");
 
+        TreeSet n = new TreeSet();
         //数组初始化后大小不可变
 
         String[] ss = new String[3];
@@ -76,7 +88,6 @@ public class Base {
         for (String ls : linkedList){
             System.out.println(ls);
         }
-
 
         HashSet hs = new HashSet();
         LinkedHashSet lhs = new LinkedHashSet();
