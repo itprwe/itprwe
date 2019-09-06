@@ -14,8 +14,11 @@ CTRL+ALT+T  把选中的代码放在 TRY{} IF{} ELSE{} 里
 Ctrl + O 重写方法  
 Ctrl + I 实现方法 
 Ctr+shift+U 大小写转化  
-ALT+回车    导入包,自动修正  
-ALT+/       代码提示 
+ALT+回车    导入包,自动修正 ////////////////
+ALT+/       代码提示 /////////////////////
+Ctrl+Shift+上下键  上下移动代码 //////////
+Ctrl+Alt+V，可以引入变量。例如：new String(); 自动导入变量定义  //////////////////////////////
+Shift+F6，重命名 //////////
 CTRL+J      自动代码  
 Ctrl+Shift+J，整合两行为一行 
 CTRL+空格   代码提示  
@@ -120,6 +123,7 @@ servlet规范：包含三个技术点
 2）filter技术---过滤器
 3）listener技术---监听器
 servlet类只能游Tomcat服务器运行
+继承GenericServlet抽象类或HttpServlet抽象类(一般继承后者)，然后重写下面方法
 
 二. 使用：
 1、 创建普通的java 类并继承HttpServlet
@@ -348,7 +352,84 @@ doGet方法只能处理Get方式提交的请求，doPost则可以处理Post方�
 一种既可以处理Get方式又可以处理Post方式的提交的请求，它就是Service方法
  如果在覆写的service方法中调用了父类的service方法(super.service(arg0, arg1)),则service方法处理完后，会再次根据请求方式响应的doGet和doPost方法执行。
  所以，一般情况下 我们是不在覆写的service中调用父类的service方法的，避免出现405错误。如果调用了则在doget方法中去掉super.doget()方法
+ 
+ 十三.
+ 注意：
+servlet 通常运行在多线程服务器上，因此应该意识到 servlet 必须处理并发请求并小心地同步对共享资源的访问。享资源包括内存数据（比如实例或类变量）和外部对象（比如文件、数据库连接和网络连接）
+ 
+ 十四.  各种问题:
+ 1.原理详解，
+tomcat是Servlet运行时的环境，就是Servlet容器，Sevrlet容器是用来管理servlet的生命周期，而web容器，即web服务器是用来管理和部署Web应用的。
+Tomcat是一个开源的Servlet容器，也是一个web容器---用于处理静态html，css等。tomcat启动原理（待查）
+ 分析：
+浏览器向服务器发出GET请求(请求服务器ServletA)
+服务器上的容器逻辑接收到该url,根据该url判断为Servlet请求，此时容器逻辑将产生两个对象：请求对象(HttpServletRequest)和响应对象(HttpServletResponce)
+容器逻辑根据url找到目标Servlet(本示例目标Servlet为ServletA),且创建一个线程A
+容器逻辑将刚才创建的请求对象和响应对象传递给线程A
+容器逻辑调用Servlet的service()方法
+service()方法根据请求类型(本示例为GET请求)调用doGet()(本示例调用doGet())或doPost()方法
+doGet()执行完后，将结果返回给容器逻辑
+线程A被销毁或被放在线程池中
+注意：
+在容器中的每个Servlet原则上只有一个实例
+每个请求对应一个线程
+多个线程可作用于同一个Servlet(这是造成Servlet线程不安全的根本原因)
+每个线程一旦执行完任务，就被销毁或放在线程池中等待回收
 
+ 2.周期详解，
+第一步：容器先加载Servlet类
+第二步：容器实例化Servlet(Servlet无参构造函数执行)
+第三步：执行init()方法（在Servlet生命周期中，只执行一次，且在service()方法执行前执行）
+第四步：执行service()方法，处理客户请求，doPost()或doGet()
+第五步：执行destroy()，销毁线程
+ 3.servlet类中主要方法及作用，
+ init()方法，服务器装入servlet的时候执行，论有多少客户机访问servlet，都不会重复执行init() service()方法，service()方法是servlet的核心，每当一个客户请求一个HttpServlet对象，该对象的service()方法就要被调用，而且传递给这个方法一个“请求”（ServletRequest）对象和一个“响应”(ServletResponse)对象作为参数。如果HTTP请求方法为GET，则缺省情况下就调用doGet()。所以不必覆盖service()方法，只需覆盖想用的的do方法即可。当post请求时，doPost方法被调用。与POST请求相关的参数作为一个单独的HTTP请求从浏览器发送到服务器。当需要修改服务器的数据时，应该使用doPost()方法。  当一个客户通过HTML表单发出一个HTTPGET请求或直接请求一个URL时，doGet()方法被调用。。与GET请求相关的参数添加到URL的后面，并与这个请求一起发送。当不会修改服务器端的数据时，应该使用doGet()方法
+destroy()方法，destroy()方法仅执行一次，即在服务器停止且卸装servlet时执行该方法。典型的将servlet作为服务器进程的一部分来关闭。缺省的destroy()方法通常是符合要求的，但是也可以覆盖他，典型的是管理服务器端资源。例如，如果servlet在运行时会累积统计数据，则可以编写一个destroy()方法，该方法用于在未装入servlet时将统计数字保存在文件中。另一个示例是关闭数据库连接。   当服务器卸装servlet时，将在所有service()方法调用完成后，或在指定的时间间隔过后调用destroy（）方法。一个servlet在运行service()方法时可能产生其他的线程，因此请确认使用destroy()方法时，这些线程已终止或完成。
+在servlet默认情况下,无论是get请求还是post请求,都会经过service()方法来处理,然后转向doGet()或者doPost()方法.
+从上面可以看出这里的service()是用来转向的,但是如果你在自己的servlet类中覆盖了service方法,那么这是service()就不是用来转向的了,而是用来处理业务的,此时不论你的客户端是用post请求还是get请求来请求这个servlet,都会执行service方法也只能执行service方法,不会去执行doPost()或doGet()方法.（？？？？）
+ 4.各个方法执行顺序次数，
+ 5.为什么doPost,doGet方法要抛出异常
+ 6.tomcat作用原理（Jetty）
+ 7.单例多线程（因为Servlet被Tomcat自动创建一次）
+ 8.编码问题
+req.setCharacterEncoding("utf-8"); //1
+resp.setContentType("text/html;charset=utf-8"); //2输出中文
+resp.setCharacterEncoding("utf-8"); //3
+ 9.ServletContext ServletConfig对象？
+ 1、定义
+    1）ServletConfig：Servlet的配置对象，容器在初始化Servlet时通过它传递信息给Servlet。
+    2）ServletContext：上下文对象，提供了一系列方法供Servlet与Web容器交互。
+2、创建时机
+    1）ServletConfig：在容器初始化Servlet的时候，并为其提供上下文初始化参数的名/值对的引用。
+    2）ServletContext：容器启动的时候，并为其提供Servlet初始化参数的名/值对的引用。
+3、作用范围（可见性）
+    1）ServletContext：每个JVM中每个Web应用一个ServletContext。
+    2）ServletConfig：每个JVM中每个Web应用的每个Servlet一个ServletConfig。
+    所以ServletConfig=Servlet初始化参数，ServletContext=上下文初始化参数。
+	
+ServletConfig，代表当前Servlet在web.xml中的配置信息
+ServletConfig config = this.getServletConfig();  //拿到init方法中的ServletConfig对象
+String servletName = config.getServletName();//获取当前servlet在web.xml中的配置名称
+String val = config.getInitParameter("name");//获取当前servlet中配置的初始换参数<init-param>中的
+ServletContext servletContext = config.getServletContext();//获取代表当前web应用的ServletContext对象
+Enumeration<String> initParameterNames = config.getInitParameterNames();//获取当前servlet中配置的所有初始化参数
+
+ServletContext：代表当前web应用（非常重要）
+//3种获取ServletContext的方法
+ServletContext servletContext1 = this.getServletContext();        
+ServletContext servletContext2 = this.getServletConfig().getServletContext();
+ServletContext servletContext3 = req.getSession().getServletContext();
+ setAttribute
+ getAttribute
+ removeAttribute
+
+<!-- 参数为0或这大于0表示容器启动加载servlet，为负数或者没设置表示访问的时候创建对象 -->
+   <load-on-startup>0</load-on-startup>  
+ 
+ 1 能快速熟悉一个项目，厘清项目框架、主要功能模块，找到值得学习的设计思想，发现明显的设计缺陷。 
+2 有代码洁癖，看到烂代码就有重构的冲动，深受代码重构、代码简洁之道等Java经典著作的毒，写代码的时候简直会有“我是作家，我的代码我做主”的错觉。 
+3 Java基础扎实，有知其所以然的功底，对未知的知识也有探究其所以然的能力 
+4 搭个小项目基础框架，研究下新技术，小打小闹没问题
 
 
 
