@@ -1,3 +1,6 @@
+import jdk.nashorn.internal.runtime.linker.Bootstrap;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +24,17 @@ public class TimeServlet extends HttpServlet {
     }
 
     @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+    }
+
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.service(req, resp);
         System.out.println("service");
+
+
+
     }
 
 
@@ -44,4 +55,7 @@ public class TimeServlet extends HttpServlet {
         super.doPost(req, resp);
         System.out.println("dopost");
     }
+
+
+
 }
