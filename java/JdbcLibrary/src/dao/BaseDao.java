@@ -32,6 +32,60 @@ public class BaseDao {
         }
         return conn;
     }
+//
+//    public Connection getCoon1(){
+//        //获取连接
+//        try {
+//            Class.forName("driver");
+//            conn = DriverManager.getConnection(url,name,pwd);
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return conn;
+//    }
+//
+//    public void closeAll1(Connection conn,PreparedStatement ps,ResultSet rs){
+//        //有则关闭
+//        if(rs!=null){
+//            try {
+//                if(rs!=null){
+//                    rs.close();
+//                }
+//                if(ps!=null){
+//                    ps.close();
+//                }
+//                if(conn!=null){
+//                    conn.close();
+//                }
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    public int executeUpdate1(String sql,Object[] obj){
+//
+//        int a = 0;
+//        conn = getCoon1();
+//        try {
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            int index = 1;
+//            if(ps!=null&&obj!=null){
+//                for (int i = 0; i <obj.length ; i++) {
+//                    ps.setObject(index,obj[i]);
+//                    index++;
+//                }
+//            }
+//            a = ps.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//            return a;
+//
+//    }
+
 
     /**
      * 关闭链接
