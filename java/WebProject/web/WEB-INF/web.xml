@@ -54,6 +54,33 @@
         <url-pattern>/first</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DateServlet</servlet-name>
+        <servlet-class>DateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DateServlet</servlet-name>
+        <url-pattern>/date</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FindEmpServlet</servlet-name>
+        <servlet-class>web.FindEmpServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindEmpServlet</servlet-name>
+        <url-pattern>/emps</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FindStuServlet</servlet-name>
+        <servlet-class>web.FindStuServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindStuServlet</servlet-name>
+        <url-pattern>/student</url-pattern>
+    </servlet-mapping>
+
 
     <context-param>
         <param-name>email</param-name>
