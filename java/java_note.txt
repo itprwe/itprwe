@@ -520,8 +520,28 @@ DriverManager 用于注册驱动
 Connection 表示与数据库创建的连接
 Statement 操作数据库sql语句的对象
 ResultSet 结果或一张虚拟表
-				 
 
+JDBC图书馆案例分析，增删改查，基于MVC的架构
+Model：负责具体业务逻辑实现（biz，dao，entity）
+View：Jsp页面视图层
+Controller：用于接受页面请求与响应，servlet
+开发顺序：
+1.entity
+2.创建数据库连接
+3.建立dao层
+4.编写daoImpl
+5.编写servlet
+6.将所写服务配置到web.xml中
+7.编写jsp页面
+//查，显示书籍列表
+打开jsp页面，执行对应的servlet，servlet执行dao层查询返回所有book对象的list，将数据返回给jsp页面，然后循环list显示每个book。
+//改
+点击列表页的修改，点击跳到IdServlet页面将唯一的id带过去，然后在IdServlet中将id传到修改页面，且sendRedirect到修改的jsp页面update.jsp页面，
+然后填好信息后点击修改，跳到指定的UpdateServlet（action=UpdateServlet）中修改，然后在UpdateServlet中将唯一的id传过去调用dao方法修改
+//增
+由index.jsp书籍列表页增加按钮跳到insert.jsp页面，insert页面添加好信息后，点击确定跳到InsertServlet页面处理，调用dao方法增加数据
+//删
+index.jsp页面点击删除按钮，对应到DeleteServlet处理，将唯一的id带到Servlet页面，然后调用dao方法删除
 				 
 八. 连接池
 九. 分页
