@@ -502,7 +502,7 @@ git push orign  如果当前分支与远程分支之间存在追踪关系，则�
 
 git push origin dev 如果省略远程分支名，则表示将本地分支推送至与之存在“追踪关系”的远程分支（通常两者同名），如果该远程分支不存在，则会被新建
 
-git push origing dev:dev 推送本地分支到远程分支
+git push origin dev:dev 推送本地分支到远程分支
 
 远程分支不存在 （git push origin :dev  /  git push --delete dev 删除远程分支）
 git push / git push origin 不可用
