@@ -42,7 +42,7 @@
 
 <body>
 <form class="form-horizontal" action="InsertServlet">
-    <div class="panel-heading"><h2>修改书本</h2></div>
+    <div class="panel-heading"><h2>添加书本</h2></div>
     <input type="hidden" value="${idid}" name="id">
     <div class="form-group">
         <label class="col-sm-1 control-label">书本编号:</label>
@@ -75,7 +75,7 @@
         </div>
     </div>
     <div>
-        <button type="submit" id="submit" class="btn btn-primary btn-xs" id="submit">确认修改</button>
+        <button type="submit" id="submit" class="btn btn-primary btn-xs" id="submit">确认添加</button>
         <button type="reset" class="btn btn-primary btn-xs">重置</button>
     </div>
 </form>
