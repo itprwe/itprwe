@@ -19,6 +19,8 @@ ALT+/       代码提示 /////////////////////
 Ctrl+Shift+上下键  上下移动代码 //////////
 Ctrl+Alt+V，可以引入变量。例如：new String(); 自动导入变量定义  //////////////////////////////
 Shift+F6，重命名 //////////
+Ctrl+Alt+t try catch模块/////////////////
+Ctrl+Shift+F 全局搜索//////////
 CTRL+J      自动代码  
 Ctrl+Shift+J，整合两行为一行 
 CTRL+空格   代码提示  
@@ -70,6 +72,8 @@ web project
 
 --基础语法（语言基础使用方式）
 
+Integer 允许为null值，int默认0，数据库里面如果有个字段没有值可能默认值为null，用Integer比较合适
+
 
 ===============java web project====================
 Java Web技术的核心基础，Servlet的工作原理https://www.cnblogs.com/rocomp/p/4808924.html
@@ -95,6 +99,8 @@ idea中创建webProject
 4.2Artifacts，点击 Artifacts选项卡，IDEA会为该项目自动创建一个名为“JavaWeb:war exploded”的打包方式，表示 打包成war包，并且是文件展开性的，输出路径为当前项目下的 out 文件夹，保持默认即可，
      勾选 Include in project build （生成项目（Ctrl+F9）的时候就会生成war包）和 Show content of elements （显示详细的内容列表）两个选项，点击OK
 
+	 左侧选中Artifacts，然后点击-项目名:war exploded ，在Avaliable Elements中将刚刚添加的JAR包put into /WEB-LIF/lib。
+	 
 5.配置Tomcat容器，打开菜单Run -> 选择Edit Configuration ，点击“+”号 -> 选择“Tomcat Server” -> 选择“Local”，
    在"Name"处输入新的服务名，点击"Application server"后面的"Configure..."，弹出Tomcat Server窗口，选择本地安装的Tomcat目录，
    在"Run/Debug Configurations"窗口的"Server"选项板中，取消勾选"After launch"，设置"HTTP port"和"JMX port"（默认值即可），点击 Apply
@@ -360,7 +366,7 @@ servlet 通常运行在多线程服务器上，因此应该意识到 servlet 必
  十四.  各种问题:
  1.原理详解，
 tomcat是Servlet运行时的环境，就是Servlet容器，Sevrlet容器是用来管理servlet的生命周期，而web容器，即web服务器是用来管理和部署Web应用的。
-Tomcat是一个开源的Servlet容器，也是一个web容器---用于处理静态html，css等。tomcat启动原理（待查）
+Tomcat是一个开源的Servlet容器，也是一个web容器---用于处理静态html，css等。tomcat启动原理（待查https://www.jianshu.com/p/571c474279af）
  分析：
 浏览器向服务器发出GET请求(请求服务器ServletA)
 服务器上的容器逻辑接收到该url,根据该url判断为Servlet请求，此时容器逻辑将产生两个对象：请求对象(HttpServletRequest)和响应对象(HttpServletResponce)
@@ -391,6 +397,19 @@ destroy()方法，destroy()方法仅执行一次，即在服务器停止且卸�
  5.为什么doPost,doGet方法要抛出异常
  6.tomcat作用原理（Jetty）
  7.单例多线程（因为Servlet被Tomcat自动创建一次）
+ 单实例多线程的方式处理多个请求（https://www.jianshu.com/p/abb2221fc6e7）
+ 1.当web服务器启动的时候（或客户端发送请求到服务器时），Servlet就被加载并实例化(只存在一个Servlet实例)；init()只执行一次。
+ 2.容器初始化化Servlet主要就是读取配置文件（例如tomcat,可以通过servlet.xml的设置线程池中线程数目，初始化线程池通过web.xml,初始化每个参数值等等。
+ 3.当请求到达时，Servlet容器通过调度线程(Dispatchaer Thread) 调度它管理下线程池中等待执行的线程（Worker Thread）给请求者；
+ 4.线程执行Servlet的service方法；5.请求结束，放回线程池，等待被调用；
+ 
+ 实例变量: 实例变量是在堆中分配的,并被属于该实例的所有线程共享，所以不是线程安全的.
+ SP中用到的OUT,REQUEST,RESPONSE,SESSION,CONFIG,PAGE,PAGECONXT是线程安全的(因为每个线程对应的request，respone对象都是不一样的，不存在共享问题), APPLICATION在整个系统内被使用,所以不是线程安全的.
+ 局部变量: 局部变量在堆栈中分配,因为每个线程都有它自己的堆栈空间,所以是线程安全的.
+ 静态类: 静态类不用被实例化,就可直接使用,也不是线程安全的.
+ 外部资源: 在程序中可能会有多个线程或进程同时操作同一个资源(如:多个线程或进程同时对一个文件进行写操作).此时也要注意同步问题
+ 。。。。。。
+ 
  8.编码问题
 req.setCharacterEncoding("utf-8"); //1
 resp.setContentType("text/html;charset=utf-8"); //2输出中文
@@ -425,11 +444,106 @@ ServletContext servletContext3 = req.getSession().getServletContext();
 
 <!-- 参数为0或这大于0表示容器启动加载servlet，为负数或者没设置表示访问的时候创建对象 -->
    <load-on-startup>0</load-on-startup>  
+   * 当值>=0时，表示容器在应用启动时就加载这个servlet；
+   * 当是一个负数时或者没有指定时，则指示容器在该servlet被选择时才加载。正数的值越小，启动该servlet的优先级越高
+   
+ 10.域对象
+ 保存数据，获取数据，可以在不同的动态资源之间共享数据
+ 方案一：可以通过传递参数的形式，共享数据，局限，只能传递字符串类型数据
+ 方案二：可以使用域对象共享数据，可以共享任何数据
+ 
+要使用request域对象进行数据共享，只能用转发技术
+
+先写实体对象-->DAO类-->Servlet程序（过程中用到util+test中的内容，再加）
  
  1 能快速熟悉一个项目，厘清项目框架、主要功能模块，找到值得学习的设计思想，发现明显的设计缺陷。 
 2 有代码洁癖，看到烂代码就有重构的冲动，深受代码重构、代码简洁之道等Java经典著作的毒，写代码的时候简直会有“我是作家，我的代码我做主”的错觉。 
 3 Java基础扎实，有知其所以然的功底，对未知的知识也有探究其所以然的能力 
 4 搭个小项目基础框架，研究下新技术，小打小闹没问题
+
+一. tomcat
+二. http
+三. servlet，javabean
+	Javabeans就是符合某种特定规范的Java类，使用Javabeans的好处是解决代码重复编写，减少代码冗余，功能区分明确，提高了代码的可维护性。
+	Javabean设计原则：
+               必须是共有类；
+               必须包含一个无参的共有构造方法；
+               所有属性必须私有；
+               使用getter和setter访问器对属性访问封装。
+四. 会话管理
+	用户开一个浏览器，点击对个超链接，访问服务器多个Web资源，然后关闭浏览器，整个过程称之为一个会话。
+	保存会话数据的两种技术：
+	Cookie：Cookie是客户端技术，程序把每个用户的数据以cookie的形式写给用户各自的浏览器。当用户使用浏览器再去访问服务器中的Web资源时，就会带着各自的数据去。这样，web资源处理的就是用户各自的数据了。    HttpSession：Session是服务器端技术，利用这个技术，服务器在运行时可以为每一个用户的浏览器创建一个其独享的HttpSession对象，由于session为用户浏览器独享，所以用户在访问服务器的web资源时，可以把各自的数据放在各自的session中，当用户再去访问服务器中的其他web资源是，其他web资源在从用户各自的session中取出数据为用户服务。
+五. jsp,,,
+六. mysql(性能管理及框架结构设计)
+七. jdbc
+没有jdbc之前，java开发人员要自己去维护不同数据库的驱动程序，如果数据库的底层变了，则驱动程序可能随之改变。
+jdbc就是开发人员只需维护java应用和一套规范，数据库厂商提供驱动程序。
+jdbc接口在jdk的java.sql*  javax.sql*中
+MVC结构： View ,Control, Model, DB
+三层架构：UI BLL DAL （表示层  业务逻辑层  数据访问层） 
+如何将三层联系起来？
+1.单项引用
+2.Entity(实体层)：它不属于三层中的任何一层，但是它是必不可少的一层
+https://www.runoob.com/w3cnote/three-tier-architecture.html
+
+加载数据库驱动：
+           SUN公司只是定义了JDBC的一些接口，如果想要操作数据库，需要先把数据库的驱动，也就是JDBC的实现类拿到程序里来，这个操作称之为注册驱动，使用DriverManager类
+           DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+		   //        DriverManager.registerDriver(new Driver());
+创建数据库连接：
+           JDBC提供了三种连接方式：一个参数，两个参数、三个参数
+           方式一：
+                DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb?username=root&password=aaa");
+           方式二：
+                 Properties p = new Properties();
+                 p.setProperty("username", "root");
+                 p.setProperty("password", "aaa");
+                 DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", p);
+           方式三：  
+                 DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "aaa");
+创建用于向数据库发送sql的Statement对象
+                 Statement st = connection.createStatement();
+                 String sql = "select * from table users;";
+                 ResultSet rs = st.executeQuery(sql);
+从代表结果集的ResultSet 中取出数据，进行操作
+                 while(rs.next()){
+                     rs.getString(columnIndex);
+                 }
+释放资源
+                在finally中释放资源		
+
+serverTimezone=UTC时区不对会报错要加这个参数				
+				 
+JDBC四个核心
+DriverManager 用于注册驱动
+Connection 表示与数据库创建的连接
+Statement 操作数据库sql语句的对象
+ResultSet 结果或一张虚拟表
+				 
+
+				 
+八. 连接池
+九. 分页
+十. 过滤器
+十一. 监听器
+十二. 文件上传与下载
+十三. 阶段性项目
+十四. struts1+2
+十五. hibernate
+十六. spring(代理 aop jdbc 事务 ssh，一个ssh项目)
+十七. js jquery
+十八. easyui
+十九. springmvc
+二十. baits+mybatis
+二十一. springboot
+shiro
+webservice
+weblogic
+linux
+redis
+activiti工作流
+maven
 
 
 

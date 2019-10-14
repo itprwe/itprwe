@@ -32,11 +32,7 @@ public class TimeServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.service(req, resp);
         System.out.println("service");
-
-
-
     }
-
 
     @Override
     public void destroy() {
