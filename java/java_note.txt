@@ -544,7 +544,49 @@ Controller：用于接受页面请求与响应，servlet
 index.jsp页面点击删除按钮，对应到DeleteServlet处理，将唯一的id带到Servlet页面，然后调用dao方法删除
 				 
 八. 连接池
+允许许应用程序重复使用一个现有的数据库连接，而不是再重新建立一个
+在应用程序启动时建立足够的数据库连接，并讲这些连接组成一个连接池，由应用程序动态地对池中的连接进行申请、使用和释放。
+不使用数据库连接池的步骤：
+TCP建立连接的三次握手
+MySQL认证的三次握手
+真正的SQL执行
+MySQL的关闭
+TCP的四次握手关闭
+优点：
+实现简单
+缺点：
+网络IO较多
+数据库的负载较高
+响应时间较长及QPS较低
+应用频繁的创建连接和关闭连接，导致临时对象较多，GC频繁
+在关闭连接后，会出现大量TIME_WAIT 的TCP状态（在2个MSL之后关闭）
+使用数据库连接池的步骤：
+第一次访问的时候，需要建立连接。 但是之后的访问，均会复用之前创建的连接，直接执行SQL语句。
+优点：
+较少了网络开销
+系统的性能会有一个实质的提升
+没了麻烦的TIME_WAIT状态
+流行的Java数据库连接池有dbcp，druid，HikariCP，tomcat-jdbc，c3p0
+性能从高到低分别是：HikariCP，druid，tomcat-jdbc，dbcp，c3p0
+dbcp，c3p0 utils
+
 九. 分页
+dao层
+查询数据库的总条数：select count(1) as total from book;
+按照传入的pagesize分为多少页：int totalPages = (total % pageSize == 0) ? (total / pageSize) : (total / pageSize) + 1;且获取每页的对象
+servlet层
+request.getParameter("page");按照传入的pageid或者当前的pageid获取值
+// 每页3条记录
+int pageSize = 3;
+String spage = request.getParameter("page");//当前页pageid
+if (spage == null || spage == "") {
+	spage = "1";
+}
+int currentPage = Integer.parseInt(spage);
+BookDao bookDao=new BookDao();
+int totalPage = bookDao.totalPages(pageSize);//获取总页数
+List<Book> list = bookDao.getRecords(currentPage, pageSize);//获取每页的boollist对象
+
 十. 过滤器
 十一. 监听器
 十二. 文件上传与下载

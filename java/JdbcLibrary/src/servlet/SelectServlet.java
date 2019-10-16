@@ -36,8 +36,8 @@ public class SelectServlet extends HttpServlet {
 
         if(opr==null||opr.equals("list")){
             //刷新
-            BookDao goodsDao=new BookDao();
-            List<Book> list=goodsDao.findAll();
+            BookDao bookDao=new BookDao();
+            List<Book> list=bookDao.findAll();
             request.getSession().setAttribute("list", list);
             response.sendRedirect("index.jsp");
         }

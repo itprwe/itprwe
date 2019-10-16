@@ -51,6 +51,16 @@
         <url-pattern>/InsertServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>PagingServlet</servlet-name>
+        <servlet-class>servlet.PagingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PagingServlet</servlet-name>
+        <url-pattern>/PagingServlet</url-pattern>
+    </servlet-mapping>
+
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
