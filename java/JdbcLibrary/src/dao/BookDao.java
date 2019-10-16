@@ -63,4 +63,39 @@ public class BookDao extends BaseDao{
         return list;
     }
 
+    //按照每页大小分为多少页
+    public int totalPages(int pageSize) {
+        int total = getTotal();
+        int totalPages = (total % pageSize == 0) ? (total / pageSize) : (total / pageSize) + 1;
+        return totalPages;
+    }
+
+    //查询book表数量
+    public int getTotal() {
+        Connection conn = this.getConn();
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select count(1) as total from book";
+            pst = this.prepareStatement(conn, sql,null);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("total");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    //返回每页的book
+    public List<Book> getRecords(int currentPage, int pageSize) {
+        List<Book> list = new ArrayList<Book>();
+        int start = 0;
+        if (currentPage > 0) {
+            start = (currentPage - 1) * pageSize;
+        }
+        String sql = "select * from book order by id limit " + start + "," + pageSize;
+        return search(sql);
+    }
 }

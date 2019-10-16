@@ -1,5 +1,8 @@
 package dao;
 
+import util.C3P0Utils;
+import util.DbcpUtils;
+
 import java.sql.*;
 
 public class BaseDao {
@@ -110,7 +113,12 @@ public class BaseDao {
 
     //执行增删改
     protected int executeUpdate(String sql,Object[] obj){
-        conn = getConn();
+//        conn = getConn();
+
+//        conn = C3P0Utils.getConnection();
+
+        conn = DbcpUtils.getConnection();
+
         PreparedStatement ps = null;
 
         try {
