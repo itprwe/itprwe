@@ -8,7 +8,7 @@ https://www.infoq.cn/article/suning-test-sat
 fori/sout/psvm + Tab  
 ctrl+alt+u，查看继承实现哪些接口，向上查看继承图表 ，图表中按住alt键可以使用放大镜，或者使用右键选择Diagrams，然后右键选择 show categories
 Ctrl+Alt+O 优化导入的类和包
-Alt+Insert 生成代码(如get,set方法,构造函数等)   或者右键（Generate）
+Alt+Insert 生成代码(如get,set方法,构造函数等)   或者右键（Generate）/////////////////////////////////
 Ctrl+Alt+T  生成try catch  或者 Alt+enter 
 CTRL+ALT+T  把选中的代码放在 TRY{} IF{} ELSE{} 里 
 Ctrl + O 重写方法  
@@ -587,7 +587,21 @@ BookDao bookDao=new BookDao();
 int totalPage = bookDao.totalPages(pageSize);//获取总页数
 List<Book> list = bookDao.getRecords(currentPage, pageSize);//获取每页的boollist对象
 
-十. 过滤器
+十. 过滤器Filter
+对web服务器管理的所有web资源：例如Jsp, Servlet, 静态图片文件或静态html文件等进行拦截，
+从而实现一些特殊的功能。例如实现URL级别的权限访问控制、过滤敏感词汇、压缩响应信息等 
+Servlet 过滤器是可用于 Servlet 编程的 Java 类，可以实现以下目的：
+在客户端的请求访问后端资源之前，拦截这些请求。
+在服务器的响应发送回客户端之前，处理这些响应。
+浏览器发出的请求先递交给第一个filter进行过滤，符合规则则放行，递交给filter链中的下一个过滤器进行过滤。过滤器在链中的顺序与它在web.xml中配置的顺序有关，
+配置在前的则位于链的前端。当请求通过了链中所有过滤器后就可以访问资源文件了，如果不能通过，则可能在中间某个过滤器中被处理掉。
+功能：
+过滤器一般用于登录权限验证、资源访问权限控制、敏感词汇过滤、字符编码转换等等操作，便于代码重用，不必每个servlet中还要进行相应的操作。
+在web.xml中配置过滤器。这里要谨记一条原则：在web.xml中，监听器>过滤器>servlet。也就是说web.xml中监听器配置在过滤器之前，过滤器配置在servlet之前，否则会出错。
+
+登录过滤器，以及自动登录过滤器复盘总结：
+
+
 十一. 监听器
 十二. 文件上传与下载
 十三. 阶段性项目
