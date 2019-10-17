@@ -600,7 +600,21 @@ Servlet 过滤器是可用于 Servlet 编程的 Java 类，可以实现以下目
 在web.xml中配置过滤器。这里要谨记一条原则：在web.xml中，监听器>过滤器>servlet。也就是说web.xml中监听器配置在过滤器之前，过滤器配置在servlet之前，否则会出错。
 
 登录过滤器，以及自动登录过滤器复盘总结：
-
+1.web.xml中配置filter，拦截哪些页面
+2.Filter类中的doFilter方法中实现拦截逻辑
+登录逻辑：
+//entity
+User实体
+//Dao层
+通过用户名密码来查询，返回一个User，User有结果则登录通过，否则不通过
+//Filter类
+打开页面的时候，获取session中的User信息，为空则拦截，跳到登录页面
+如果session为空，再获取cookie，为空则拦截，跳到登录页
+session为空，再获取cookie，不为空，与数据库的登录名密码对比，不同则拦截跳到登录页，否则放行
+//LoginServlet类
+获取login.jsp的输入信息，调userDao去对比信息，相同则登录成功，跳到book列表页；
+登录时候选择是否下一次自动登录，选择则将登录user信息存入cookie中，关闭浏览器重新打开的时候cookie还在，拦截器会校验cookie，通过则放行
+否则登录不成功，提示请重新输入；
 
 十一. 监听器
 十二. 文件上传与下载
