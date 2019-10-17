@@ -61,6 +61,14 @@
   <jsp:forward page="SelectServlet"></jsp:forward>
 </c:if>
 
+<%--<c:if test="${ empty existUser }">--%>
+  <%--<h3><a href="${ pageContext.request.contextPath }/login.jsp">亲，请登陆！</a></h3>--%>
+<%--</c:if>--%>
+
+<%--<c:if test="${ not empty existUser }">--%>
+  <h3>亲！欢迎访问：${ existUser.nickname }，角色是：${ existUser.type }</h3>
+
+
 <table class="table table-hover table-striped">
 
   <!-- 二维码 -->
@@ -84,6 +92,8 @@
   </c:forEach>
 
 </table>
+
+<%--</c:if>--%>
 
 <!-- jQuery -->
 <script src="<%=basePath%>js/jquery.min.js"></script>

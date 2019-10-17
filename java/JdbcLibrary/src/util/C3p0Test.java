@@ -8,6 +8,12 @@ import java.sql.SQLException;
 public class C3p0Test {
 
     public static void main(String[] args) throws SQLException {
+
+        Object[] obj = new Object[]{"dsd","dddd"};
+        System.out.println(obj.length);
+
+
+
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
 
         /**

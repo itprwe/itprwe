@@ -145,6 +145,7 @@ public class BaseDao {
             int index=1;
             ps = conn.prepareStatement(sql);//3.创建Statement\PreparedStatement对象
             if(ps!=null&&ob!=null){
+                System.out.println(ob.length);
                 for (int i = 0; i < ob.length; i++) {
                     ps.setObject(index, ob[i]);
                     index++;

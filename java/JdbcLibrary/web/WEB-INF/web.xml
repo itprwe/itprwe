@@ -4,6 +4,20 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
+
+    <!-- /* 表示作用于所有web资源，客户端请求访问任意资源文件时，都要经过过滤器过滤，通过则访问文件，否则拦截 -->
+    <!-- /dir/* 作用于某一个文件夹下所有文件 -->
+    <!-- *.扩展名 作用于某一类型的文件 -->
+    <!-- /dir/*.扩展名 作用于某一文件下某一类型文件 -->
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>servlet.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>SelectServlet</servlet-name>
         <servlet-class>servlet.SelectServlet</servlet-class>
@@ -12,6 +26,7 @@
         <servlet-name>SelectServlet</servlet-name>
         <url-pattern>/SelectServlet</url-pattern>
     </servlet-mapping>
+
 
     <servlet>
         <servlet-name>IdServlet</servlet-name>
@@ -60,6 +75,14 @@
         <url-pattern>/PagingServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>servlet.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
