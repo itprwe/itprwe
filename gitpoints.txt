@@ -296,7 +296,7 @@ git clone https://github.com/itprwe/points.git  clone一个仓库
 git push origin master 推送
 
 3.建立远程分支
-先建立本地分支，然后推送到远程，-u参数表示将本地的dev分支和远程的origin/dev分支之间建立跟踪关联
+先建立本地分支，然后推送到远程，-u参数表示将本地的dev分支和远程的origin/dev分支之间建立跟踪关联//*
 git checkout -b dev
 git push -u origin dev / git push origin dev:dev
 
