@@ -456,7 +456,7 @@ git pull
 
 2.远程分支本地分支有，但是没有联系（两个及以上分支）
 与对应分支建立联系可用 git pull 
-或者 git pull origin dev /  git pull origin dev:dev 可用，但是没有建立联系
+或者 git pull origin dev /  git pull origin dev:dev 可用，但是没有建立联系//
 git pull origin 只适用于有默认的分支
 
 3.远程分支与本地分支有联系，但是比本地新或者比本地旧
