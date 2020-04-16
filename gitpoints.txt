@@ -85,7 +85,7 @@
 
 39.git checkout master 切换到mater分支
 
-40.git merge dev  合并指定分支（dev）到当前分支，merge分支（dev）到当前分支
+40.git merge dev  合并指定分支（dev）到当前分支，merge分支（dev）到当前分支//
 
 41. git branch -d dev 删除dev分支
 
