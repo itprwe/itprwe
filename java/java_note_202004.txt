@@ -190,10 +190,53 @@ c.运行时常量池（Runtime Constant Pool）
 38.开闭原则
 
 39.异常
+Throwable
+--Error 程序无法处理的错误，JVM运行时出现的错误
+--Exception 程序本身能够处理的异常，（NullPointerException，ClassCastException，ArrayIndexOutOfBoundsException，ArithmeticException）
+异常分为：
+RuntimeException 
+CheckedException  这类异常在编译时就必须做出处理，否则无法通过编译。try catch 或者 declaration
+异常处理方法：
+a.try-catch-finally（不论是否有异常finally都会执行）
+catch异常子类在前，父类在后
+b.throws谁调用我谁处理异常（异常由最高层处理）
+自定义异常
 
+40.数组（也是对象）
+相同类型数据的有序集合
+数组长度确定
+元素类型相同
+可以是任何类型
+a.//声明数组，指定长度（栈内变量，在堆内分配空间），初始化
 
+数组赋值、
+foreach循环
 
+41.数组的拷贝
+arraycopy
+删除一个元素
+数组扩容
+插入一个元素
 
+42.工具类java.util.Arrays使用
+
+43.数组存储表格数据
+冒泡
+二分法
+
+44.包装类
+基本数据类型不是对象，转为包装类作为对象使用
+byte Byte;boolean Boolean;short Short;char Character；int Integer;long Long;float Float;double Double
+Integer 基本类型 字符串 包装类相互转换
+
+45.自动装箱(Integer.valueOf(111))，自动拆箱（a.intValue()） 编译器处理
+缓存
+
+46.String类
+
+47.StringBuilder线程不安全 StringBuffer线程安全 --可变字符序列，数组中的内容可以随意修改
+
+48.
 
 
 
