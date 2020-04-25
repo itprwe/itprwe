@@ -235,9 +235,55 @@ Integer 基本类型 字符串 包装类相互转换
 46.String类
 
 47.StringBuilder线程不安全 StringBuffer线程安全 --可变字符序列，数组中的内容可以随意修改
+String与StringBuilder效率对比
 
-48.
+48.时间处理类
+Date d = new Date(2000);
+日期处理使用Calendar
 
+49.DateFormat抽象类（不能被new，new其实现类）和SimpleDateFormat实现类的使用
+DateFormat字符串解析为时间parse（）  时间解析为字符串format（）
+
+50.Calendar类
+
+51.Math Random
+
+52.File类 文件文件目录 增删改查文件
+递归便利目录结构和树状展现
+递归：递归头（什么时候不调用自己），递归体（什么时候调用自己）
+if(n==1){return 1}else{ return n*function(n-1)}
+
+53.枚举 enum
+
+54.容器
+数组也是一种容器，可以在其中放置对象或基本数据类型，优点，是一种简单的线性序列，可以快速的访问数组元素，效率高。如果从效率和类型检查来讲，数组是最好的。
+缺点，不灵活，容量需要事先定义好，不能随着需求的变化而扩容。
+Collenction
+-Set
+--HashSet
+-List
+--ArrayList
+--LinkList
+Map
+-HashMap
+55.泛型是jdk1.5后增加的，它可以帮助我们建立类型安全的集合
+泛型本质：就是数据类型的参数化，数据类型的一个占位符（形式参数），即告诉编译器，在调用泛型的时候必须传入实际类型
+
+56.ArryList LinkList源码学习
+transient关键字
+
+57.Vector线程安全，效率低
+
+58.Map存储键值对，键不能重复（根据equals判断），重复了则后面的会覆盖前面的值
+
+59.HashMap底层实现采用了哈希表，这是一种非常重要的数据结构（reids），看源码
+基本结构：数组+链表
+存储过程：
+key对象+value对象-->获取key对象的hashcode()-->hashcode哈希码
+HashMap的hash()方法计算出[0,table数组length-1]的数-->计算出hash值
+hash:15,key对象,value对象,next:null
+根据hash为15将entry对象存储到数组索引位置
+JDK8中，当链表长度大于8时，链表就转换为红黑树，这样又大大提高了查找的效率
 
 
 
