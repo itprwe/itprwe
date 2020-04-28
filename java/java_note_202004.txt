@@ -285,6 +285,50 @@ hash:15,key对象,value对象,next:null
 根据hash为15将entry对象存储到数组索引位置
 JDK8中，当链表长度大于8时，链表就转换为红黑树，这样又大大提高了查找的效率
 
+get取值过程
+get()的时候计算出hashcode然后通过与HashMap的hash()方法得出hash值（对应列表的哪一行），
+找到后然后通过equals方法比较那一列中的所有key相同的话就取出value
+
+二叉树和红黑二叉树原理
+
+60.TreeMap排序的时候用，底层用红黑二叉树实现原理？
+61.HashTable线程安全，效率低，不允许key或value为null;HashMap线程不安全，效率高，运行key或value为null;
+
+61.Set接口没有顺序，不可重复
+HashSet
+TreeSet
+
+62.Iterator  
+
+63.ORM思想 
+将表格数据每行存到map中，最后map存到list中
+每一行数据用一个javabean对象存储，然后所有数据存到map或list中
+jdbc把表数据放对象中，把对象存到表中
+
+
+总结：
+语言基础
+oop
+容器 手写容器
+
+1.IO
+api
+任何类都有构造器
+
+io 
+枚举类型 
+注解 
+并发 
+图形化
+多线程 
+网络编程 
+反射 
+jdbc 
+MySQL
+
+
+
+
 
 
 
