@@ -314,6 +314,50 @@ oop
 1.IO
 api
 任何类都有构造器
+2.File类
+3.文件编码
+编码：字符到字节
+解码：字节到字符
+字符集：GBK utf-8 unicode
+乱码怎么造成的：/字节数不够，字符集不统一
+
+4.idea 编码
+File->Settings->Editor->File Encodings
+File->Other Settings->Default Settings ->Editor->File Encodings
+将项目中的.idea文件夹中的encodings.xml文件中的编码格式改为uft-8
+File->Settings->Build,Execution,Deployment -> Compiler -> Java Compiler（设置 Additional command line parameters选项为 -encoding utf-8）
+打开Run/Debug Configuration,选择你的tomcat，然后在  Server > VM options 设置为 -Dfile.encoding=UTF-8 ，重启tomcat
+清空浏览器缓存再试一次。
+
+5.IO流四大类
+InputStream:字节输入流的父类，数据单位是字节；--常用方法 int read();void close();
+OutputStream:字节输出流的父类，数据单位是字节 --常用方法 void write(int);void flush();void close();
+Reader:字符输入流的父类，数据单位是字符 --常用方法 int read();void close();
+Writer:字符输出流的父类，数据单位是字符 --常用方法 void write(String);void flush();void close();
+
+6.IO读取,写出
+FileInputStream：通过字节方式读取文件，适合读取所有类型的文件（图像视频），全字符请考虑FileReader
+1.创建源 2.选择流 3.操作（读入） 4.关闭
+is.read()一个一个读取。返回实际数据
+is.read(byte[] b)分段读取,将数据读到缓冲里面，再从缓冲里面拿，返回丢的字节数
+FileOutputStream：通过字节的方式写出或追加数据到文件，适合所有类型文件（图像视频），字符推荐使用FileWriter
+1.创建源 2.选择流 3.操作（写出） 4.关闭
+os.write(byte[],off,len);
+
+7.文件拷贝
+FileInputStream 文件到程序
+FileOutputStream 程序到文件
+文件拷贝：文件--程序--文件 先FileInputStream 再FileOutputStream
+思考：文件夹的拷贝
+
+8.Reader Writer
+FileReader:通过字符的方式读取文件，仅适合字符文件
+FileWriter:通过字符的方式写出或追加数据到文件中，仅适合字符文件
+
+
+
+
+
 
 io 
 枚举类型 
