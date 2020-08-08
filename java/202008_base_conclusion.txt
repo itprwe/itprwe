@@ -1,0 +1,53 @@
+jvm/jre/jdk/类型转换/switch/for/break/contiune/方法重载/递归
+1.jvm/jre/jdk
+jvm:java virtual machine
+只认识.class文件，将文件中的字节码指令进行识别并调用操作系统向上的API完成动作。jvm是java能跨平台的核心
+jre:java runtime environment
+包含两个部分，jvm的标准实现和java的一些基本类库
+jdk:java development kit
+java开发工具包，是整个java开发的核心，集成了jre和一下好用的小工具（javac.exe,java.exe,jar.exe）
+真正在运行java时起作用的 bin、include、lib、 jre
+JDK>JRE>JVM
+JRE = JVM + libraries to run Java Application
+JDK = JRE + tools to develop Java Application
+https://blog.csdn.net/weixin_38339025/article/details/90313695
+
+2.jvm体系结构：
+JVM 主要分为三个子系统：
+1)类加载器：
+a.Loading - 加载
+Bootstrap ClassLoader - 加载 rt.jar 核心类库，是优先级最高的加载器
+Extension ClassLoader - 负责加载 jre\lib\ext 文件夹中的类
+Application ClassLoader -负责加载 CLASSPATH 指定的类库
+b.Linking - 链接
+Verify - 验证：验证生成的字节码是否正确
+Prepare - 准备：为所有静态变量，分配内存并赋予默认值
+Resolve - 解析：将 class 文件常量池中所有对内存的符号引用，替换成到方法区的直接引用
+c.Initialization - 类初始化
+类加载的最后阶段，这里对静态变量进行赋值，并执行静态块。（注意区分对象初始化）
+2)运行时数据区Runtime Data Areas:
+a.Method Area- 方法区
+也被称为元空间，还有个别名 non-heap（非堆），使用本地内存存储 class meta-data 元数据（运行时常量池，字段和方法的数据，构造函数和方法的字节码等），在 JDK 8 中，把 interned String 和类静态变量移动到了 Java 堆
+b.Heap Area - 堆 
+存储类实例对象和数组对象，垃圾回收的主要区域
+c.Stack Area - 栈
+在方法调用时，创建一个叫栈帧的数据结构，用于存储局部变量和部分过程的结果，栈帧由以下几部分组成：
+局部变量表：存储方法调用时传递的参数，从0开始存储this、方法参数、局部变量
+操作数栈：执行中间操作，存储从局部变量表或对象实例字段复制的常量或变量值，以及操作结果，另外，还用来准备被调用方法的参数和接受方法调用的返回结果
+动态链接：一个指向运行时常量池的引用，将 class 文件中的符号引用（描述一个方法调用了其他方法或访问成员变量）转为直接引用
+方法返回地址：方法正常退出或抛出异常退出，返回方法被调用的位置
+d.Pc Registers - 寄存器（程序计数器）
+保存正在执行的字节码指令的地址
+e.RuntimeConstant Pool -运行时常量池（方法区的一部分）
+存储类或接口中的数值字面量，字符串字面量以及所有方法或字段的引用，基本上涉及到方法或字段，JVM 就会在运行时常量池中搜索其具体的内存地址
+f.Native Method Stacks
+JVM采用本地方法堆栈来支持native方法的执行，此区域用于存储每个native方法调用的状态
+
+3)执行引擎
+
+java内存模型
+java对象模型
+https://www.cnblogs.com/chuonye/p/11349042.html
+
+2.类型转换/switch/for/break/contiune
+1)类型转换
