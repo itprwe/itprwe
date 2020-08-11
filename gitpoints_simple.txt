@@ -146,9 +146,9 @@ git fetch origin master:tmp //从远程仓库master分支获取最新，在本�
 git diff tmp //將當前分支和tmp進行對比
 git merge tmp //合并tmp分支到当前分支
 
-git stash 当前工作现场“储藏”起来，等以后恢复现场后继续工作
+12.git stash 当前工作现场“储藏”起来，等以后恢复现场后继续工作
 
-git clone  先有远程库，再远程克隆到本地 
+13.git clone  先有远程库，再远程克隆到本地 
 git clone https://github.com/itprwe/itprwe.git  或者  git clone git@github.com:itprwe/itprwe.git
 本地没有 repository 时，将远程 repository 整个下载过来（从远程服务器克隆一个一模一样的版本库到本地,复制的是整个版本库 --clone是将一个库复制到你的本地，是一个本地从无到有的过程）
 所有本地分之默认与远程主机的同名分之，建立追踪关系，也就是，本地的master分之自动“追踪”origin/master分之
@@ -157,7 +157,25 @@ git clone <版本库的网址> <本地目录名>
 git clone -o <远程主机名> <版本库的网址>
 clone下来的仓库默认分支（master）与本地分支master有追踪关系，其他远程分支不被建立到本地
 
+14.idea中git使用
+1) settings->Version Control->Git->Path to Git executable: 设置为安装git中所安装的git.exe
+2) 设置github账号 settings->Version Control->GitHub->Add account
+a. 用IDEA从github上pull一个现成的项目到本地，并使用
+checkout ：菜单->VCS->Chekout from Version Control->Github（或者Git）
+b. IDEA 创建的本地项目push到GitHub上
+首先在github创建一个仓库，创建成功，得到git地址
+本地创建一个项目，创建本地仓库，菜单->VCS->import into Version Control->Create Git Repository->e:\project\hiworld-OK
+把项目加入到本地仓库的stage区暂存
+右键项目->Git->Add
+将暂存的项目提交到本地仓库然后提交到远程仓库(IDEA里将这两步骤简化为一步 即Commit and Push)
+右键项目->Git->Commit Directory之后弹出如图所示的窗口，在Commit Message 输入 test， 然后点击 Commit And Push
+这里会询问你要提交的哪里去，点击Define remote,并输入在" 创建成功，得到git地址 "步骤中的：
+c. IDEA里代码提交和项目更新
+使用快捷键CTRL+K,就会弹出提交的界面，点击Commit and Push即可
+点击快捷键Ctrl+T，就会弹出更新的界面，点击OK即可
 
+
+==========================================================================================
 五类主要分支:
 master主分支
 release分支
