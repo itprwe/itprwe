@@ -162,11 +162,11 @@ clone下来的仓库默认分支（master）与本地分支master有追踪关系
 2) 设置github账号 settings->Version Control->GitHub->Add account
 a. 用IDEA从github上pull一个现成的项目到本地，并使用
 checkout ：菜单->VCS->Chekout from Version Control->Github（或者Git）
+
 b. IDEA 创建的本地项目push到GitHub上
 首先在github创建一个仓库，创建成功，得到git地址
 本地创建一个项目，创建本地仓库，菜单->VCS->import into Version Control->Create Git Repository->e:\project\hiworld-OK
-把项目加入到本地仓库的stage区暂存
-右键项目->Git->Add
+把项目加入到本地仓库的stage区暂存，右键项目->Git->Add
 将暂存的项目提交到本地仓库然后提交到远程仓库(IDEA里将这两步骤简化为一步 即Commit and Push)
 右键项目->Git->Commit Directory之后弹出如图所示的窗口，在Commit Message 输入 test， 然后点击 Commit And Push
 这里会询问你要提交的哪里去，点击Define remote,并输入在" 创建成功，得到git地址 "步骤中的：
