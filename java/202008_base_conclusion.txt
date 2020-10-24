@@ -286,6 +286,69 @@ Exception 分为 RuntimeException  CheckedException
 数组类型可以使任何数据类型
 
 
+/////////...........
+
+Servlet是JavaWeb的三大组件之一（Servlet、Filter、Listener）
+一 . servlet
+servlet原理，访问步骤
+第一步：容器先加载Servlet类
+第二步：容器实例化Servlet(Servlet无参构造函数执行)
+第三步：执行init()方法（在Servlet生命周期中，只执行一次，且在service()方法执行前执行）
+第四步：执行service()方法，处理客户请求，doPost()或doGet()
+第五步：执行destroy()，销毁线程
+servlet周期
+执行init方法
+多次执行service方法
+执行destory()方法
+
+servlet常用API
+servlet  request和response对象
+servlet转发和重定向
+servlet cookie和session
+
+servlet  ServletContext对象和ServletConfig对象
+1. Context：上下文，理解为环境。环境可以给其内部的个体提供资源。从编程的角度来说可以给内部的对象提供数据；
+2. ServletConfig：它是Servlet的私有环境，可以为某一个Servlet提供数据；
+3. ServletContext：它是Servlet的公有环境，可以为所有Servlet提供数据；
+4. 使用ServletConfig和ServletContext给Servlet预置数据，不用写单独的配置文件，直接使用web.xml即可；另外这两个对象可以在初始化Servlet之前自动读取web.xml中的预置数据；
+5. Servlet特殊用法：
+    - 可以使用此对象存取一些变量；
+    - 即在程序运行阶段随时向此对象存取数据；
+    - 获取对象：ServletContext ctx = getServletContext();
+    - 取：ctx.getAttribute("user")；
+    - 存：ctx.setAttribute("user","admin")；
+ 6. 通常在Tomcat启动时，都要调用某Servlet重写init(ServletConfig config)方法，专门用来在此阶段初始化项目所需要的一些变量。
+ServletContext对象的创建是在服务器启动时完成的；
+ServletContext对象的销毁是在服务器关闭时完成的
+
+servlet web.xml文件和server.xml文件:
+servlet 域对象
+
+servlet 注解
+@WebServlet("/first1")
+
+编码问题
+
+
+/////////servlet 课程
+规范
+周期
+HttpServletRequest  
+HttpServletResponse
+请求与响应
+重定向
+转发
+servletContext
+cookie
+httpsession
+监听器
+过滤器
+
+
+
+
+
+
 
 
 
