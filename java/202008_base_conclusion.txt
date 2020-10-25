@@ -333,9 +333,9 @@ servlet 注解
 
 1.执行顺序 
 
-/////////servlet 课程
-规范
-servlet周期	
+////////////////////////servlet 课程/////////////////////
+一、规范
+二、Servlet类周期	
 
 三、HttpServletRequest  
 1.从doget/dopost中读取请求协议中的相关信息
@@ -350,7 +350,7 @@ out.print(97); //常用
 2.设置响应头中content-type属性值，从而控制浏览器使用对应编译器将响应体二进制编译为【文字，图片，视频等】，以及控制编码
 response.setContentType("text/html;charset=utf-8")要在得到输出流之前决定
 3.设置响应头中【location】属性，将一个请求地址赋值给location,从而控制浏览器向指定服务器发送请求
-response.sendRedirect()
+response.sendRedirect()//重定向
 
 五、请求对象与响应对象的生命周期
 1.http服务器接受到浏览器发送的http请求协议包，自动为当前的服务包生成一个请求对象，响应对象
@@ -358,7 +358,70 @@ response.sendRedirect()
 3.http服务器在准备推送http响应协议包之前，负责销毁关联的请求对象，响应对象
 ////周期贯串一次请求过程
 
-六、
+六、managesystem
+1.数据库建表Users
+2.在src下建立 com.itprwe.entity.Users 实体类（属性变量为私有，其他get/set方法为public）
+        属性变量+get/set方法+有参、无参构造方法（new对象方便灵活）
+3.在src下建立 com.itprwe.util.JdbcUtil 工具类[复用]
+4.在web下WEB-INF下创建lib文件夹，存放mysql提供jdbc实现jar包
+5.在web下面增加user_add.html文件
+6.在src下建立 com.itprwe.controller.UserAddServlet;
+        控制调度文件：1，获取请求头中的信息，2.将请求头中的信息传给UserDao处理，3.将处理结果集返回给浏览器
+7.在src下建立 com.itprwe.dao.UserDao;（将Users实例作为参数传给UserDao，方便参数传递，避免参数过多情况）
+        处理数据，将数据插入数据库表，返回结果给UserAddServlet
+
+		
+七、http状态码
+
+八、多个Servlet之前的调用规则
+1.前提条件：
+	某个来自浏览器的请求，需要多个Servlet协同处理。
+	但是浏览器一次只能访问一个Servlet，导致用户需要手动通过浏览器发起多次请求。
+2.提高用户使用感受规则：
+	无论请求涉及多少个Servlet，用户只需要【手动】通知浏览器发起一次请求即可
+3.多个Servlet之间调用规则：
+	1）重定向解决方案 response.sendRedirect("/网站名称/资源名");//有2次请求，一定是get请求；缺点：浏览器与服务器之间多次往返，浪费时间
+	2）请求转发解决方案 原理：（通过当前请求对象代替浏览器向服务器申请调用其他Servlet），只发生1次请求
+	RequestDispatcher report = request.getRequestDipatcher("/资源名称"); 
+	report.forward(req,resp);
+	优点：
+	1）无论本次请求涉及多少个Servlet，用户只需要手动通过浏览器发送一次请求
+	2）servlet之间调用发生在服务器计算机上，节省服务端与浏览器之间的往返次数，节省服务端处理时间
+	
+九、多个Servlet之间数据共享
+	1.一个Servlet工作完毕后，将产生数据交给另一个Servlet
+	2.Servlet规范中提供了四种数据共享方案
+		1）ServletContext接口
+		2）Cookie类
+		3）HttpSession接口
+		4）HttpServletRequest接口
+
+十、ServletContext接口：
+	1、介绍：1）来自于Servlet规范中的一个接口，在servlet-api.jar包
+			 2）如果两个servlet来自同一个网站，彼此之间通过网站的ServletContext实例对象实现数据共享
+			 3）开发人员习惯将ServletContext对象称为【全局作用域对象】
+	2、工作原理：
+			每个网站都存在一个全局作用域对象，相当于一个Map，在这个网站中OneServlet可以将一个数据存入到全局作用域对象中，
+			当前网站中的其他Servlet此时随时可以从全局作用域对象中得到这个数据进行使用。
+	3、生命周期：
+			在http服务器启动过程中，自动为当前网站在内存中创建
+			在http运行期间，一个网站只能有一个全局作用域对象，且一直为存活状态，http关闭时候将全局域对象销毁
+	4、命令实现：
+			1）通过请求对象request向Tomcat索要全局作用域对象
+				ServletContext application = request.getServletContext();
+			2）将数据添加到全局作用域对象中
+				application.setAttribute("key1",数据);
+			3）其他Servlet获取数据
+				ServletContext application = request.getServletContext();
+				application.getAttribute("key1");
+	
+
+十一、Cookie
+	1.介绍：1）来自Servlet规范中的一个工具类
+	2）如果两个Servlet来自同一个网站，并且为同一个浏览器/用户提供服务，此时借助于Cookie对象进行数据共享
+	3）Cookie存放当前用户的私人数据，在共享数据过程中提高服务质量
+	4）
+
 
 请求与响应
 重定向
@@ -400,6 +463,20 @@ ps.setInt(1,22),
 ps.setString(2,"sdfa");
 ps.excutQuery();//查
 ps.excutUpdate();//增删改
+
+5.jdbc中的事务是自动只要执行任意一条dml语句，则自动提交一次
+解决自动提交问题
+conn.setAutoCommit(false);//关闭自动提交事务
+conn.commit();
+conn.rollback();
+
+6.工具类（构造方法是私有，方法是静态的）
+
+7.悲观锁（行级锁），在一个查询语句后面加 for update，那么在查询语句这个事务完成前其他事务都不能操作；事务必须排队执行，数据锁住了，不允许并发
+乐观锁，支持并发，事务不需要排队，只不过要一个版本号；两个事务修改同一条数据，开始时候两个事务读取到的版本号都为1.1，事务a修改数据后，将版本号改为1.2，事务B来修改的时候发现版本号变为了1.2，和最初读取到的版本号不一致，回滚
+
+
+
 
 
 
