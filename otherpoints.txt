@@ -46,3 +46,12 @@
 7.在一台电脑上怎么克隆多个仓库，怎样搭git服务器
 
 8.taskkill /pid 1988 /f
+
+9.idea Jrebel 热部署重新编译Ctrl+shift+F9
+
+10.Java Enterprise创建，这个方法会自动导入Tomcat的servlet包
+
+11.通过Java工程创建，这个方法需要手动导入Tomcat的servlet包才能使用servlet
+
+12.新建project 再新建module
+module setting 可以在libraries中添加jar包/也可以在modules中增加jar包

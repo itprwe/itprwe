@@ -325,16 +325,41 @@ servlet web.xml文件和server.xml文件:
 servlet 域对象
 
 servlet 注解
-@WebServlet("/first1")
+@WebServlet("/first1")@WebServlet(urlPatterns="/four") 等价于web.xml中的两段配置
+
 
 编码问题
 
 
+1.执行顺序 
+
 /////////servlet 课程
 规范
-周期
-HttpServletRequest  
-HttpServletResponse
+servlet周期	
+
+三、HttpServletRequest  
+1.从doget/dopost中读取请求协议中的相关信息
+2.可以从请求行，请求头，请求体中读取信息
+3.doget方法的编码使用的是tomcat的编码，默认的是utf-8；dopost用的是request的编码，不是utf-8
+
+四、HttpServletResponse
+1.将执行结果以二进制形式写入到【响应体】
+PrintWriter out = resp.getWriter();//向tomcat索要输出流
+out.write(97);
+out.print(97); //常用
+2.设置响应头中content-type属性值，从而控制浏览器使用对应编译器将响应体二进制编译为【文字，图片，视频等】，以及控制编码
+response.setContentType("text/html;charset=utf-8")要在得到输出流之前决定
+3.设置响应头中【location】属性，将一个请求地址赋值给location,从而控制浏览器向指定服务器发送请求
+response.sendRedirect()
+
+五、请求对象与响应对象的生命周期
+1.http服务器接受到浏览器发送的http请求协议包，自动为当前的服务包生成一个请求对象，响应对象
+2.在http服务器调用doget/dopost方法时候，将请求对象，响应对象作为实参传到方法中
+3.http服务器在准备推送http响应协议包之前，负责销毁关联的请求对象，响应对象
+////周期贯串一次请求过程
+
+六、
+
 请求与响应
 重定向
 转发
@@ -345,11 +370,39 @@ httpsession
 过滤器
 
 
+////////数据库表
+1.安装mysql
+https://www.cnblogs.com/yunlongaimeng/p/12558638.html
+https://blog.csdn.net/mr__sun__/article/details/104669448
+https://blog.csdn.net/asstsui/article/details/90678722
+
+2.下载mysql connect jar包
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
+
+root / 123456
+
+3.jdbc使用六步
+1）注册驱动
+2）建立连接
+3）创建sql语句执行对象
+4）执行sql语句
+5）处理结果集
+6）关闭连接（按照创建对象的反向关闭，即先创建后关闭）
+
+4.Statement、PreparedStatement使用
+Statement st = conn.createStatement();
+String sql = "select * from student";
+st.excutQuery(sql);
+////////////////////////////////////////////////////////
+String sql = "inset into student (a,b,c) values (?,?,?)";
+PreparedStatement ps = conn.preparedStatement(sql);
+ps.setInt(1,22),
+ps.setString(2,"sdfa");
+ps.excutQuery();//查
+ps.excutUpdate();//增删改
 
 
 
 
 
-
-
-
+  
