@@ -420,8 +420,74 @@ response.sendRedirect()//重定向
 	1.介绍：1）来自Servlet规范中的一个工具类
 	2）如果两个Servlet来自同一个网站，并且为同一个浏览器/用户提供服务，此时借助于Cookie对象进行数据共享
 	3）Cookie存放当前用户的私人数据，在共享数据过程中提高服务质量
-	4）
+		Cookie cc = new Cookie("key",数据);//都为String类型
+		cc.setMaxAge(60);//设置存活时间60秒
+		response.addCookie(cc);
+	
+	2、应用，注册用餐卡，点餐，划卡消费提示
 
+	3、Cookie销毁时机
+	1）默认情况下，Cookie是存放在浏览器的缓存中的，只要浏览器一关闭就销毁了
+	2）手动设置情况下，可以要求浏览器将接收的Cookie存放在客户端计算机硬盘上，同时需要指定Cookie的存活时间，在此期间关闭浏览器不会销毁Cookie
+		
+十二、HttpSession
+	1、介绍：1）来自于Servlet规范中的一个接口
+			 2）如果两个Servlet来自同一个网站，并且为同一个浏览器/用户提供服务，此时借助于HttpSession对象进行数据共享；【会话作用域对象】
+	2、HttpSession 与 Cookie 区别：
+		1）存储位置：
+			Cookie：存放在客户端计算机（浏览器内存/硬盘）
+			HttpSession：存放在服务端计算机内存
+		2）数据类型：
+			Cookie：只能存储String
+			HttpSession：可以存储任意类型的数据
+		3）数据数量：
+			Cookie：一个Cookie对象只能存一个共享数据
+			HttpSession：使用map可以存储任意数量数据
+		4）参照物不同：
+			Cookie：客户端
+			HttpSession：服务端
+	3、实现：
+		//存储
+		HttpSession session = request.getSession();
+		session.setAttribute("key1",数据);
+		
+		//获取
+		HttpSession session = request.getSession();
+		session.getAttribute("key1");
+		
+	4、应用，商品加入购物车，查看购物车
+	5、如果将http服务器与HttpSession关联起来
+		1）Tomcat在创建一个HttpSession对象时自动为这个HttpSession对象生成一个唯一的编号，Tomcat将编号保存到Cookie中，推送到当前浏览器缓存中
+	6、getSession()与getSession(false)
+		1）
+		
+	7、HttpSession销毁时机
+		1）用户与HttpSession关联时使用Cookie只能存放在浏览器缓存中
+		2）在浏览器关闭时候，意味着用户与他的HttpSession关系被切断
+		3）由于tomcat无法检测浏览器是否关闭，因此浏览器关闭不会导致tomcat将关联的HttpSession销毁
+		4）为了解决这个问题，tomcat为每个HttpSession设置了【空闲时间】，如果一个HttpSession对象的空闲时间达到了30分钟则会被tomcat销毁
+	8、手动设置HttpSession空闲时间
+		1）在当前网站/web/WEB-INF/web.xml
+		<session-config>
+			<session-timeout>5</session-timeout><!--设置空闲时间为5分钟-->
+		</session-config>
+		
+十三、HTTPServletRequest接口实现数据共享
+	1、介绍：1）在同一个网站中，两个Servlet之间通过请求转发方式进行调用，则彼此之间共用用一个请求协议包。称为【请求作用域对象】
+	2、命令实现：
+		1）存储数据并转发：
+			request.setAttribute("key1",数据);
+			request.getRequestDipatcher("/two").forward(request,response);
+		2）获取数据：
+			request.getAttribute("key1");
+	3、应用，
+			
+十四、Servlet规范扩展----监听器接口
+	1、介绍：
+		1）一组来自Servlet规范下的接口，共有8个接口。
+		2）监听器接口需要开发人员亲自实现，Http服务器提供jar包并没有对应的实现类
+	
+	
 
 请求与响应
 重定向
