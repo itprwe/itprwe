@@ -550,7 +550,7 @@ git remote rename <原主机名> <新主机名>
 
 git push 总是要输入密码 解决方法
 
-
+update
 
 
 
