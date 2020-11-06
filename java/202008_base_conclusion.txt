@@ -328,10 +328,47 @@ servlet 注解
 @WebServlet("/first1")@WebServlet(urlPatterns="/four") 等价于web.xml中的两段配置
 
 
-编码问题
+////////////////////////////数据库JDBC课程/////////////////////////////////
+1.安装mysql
+https://www.cnblogs.com/yunlongaimeng/p/12558638.html
+https://blog.csdn.net/mr__sun__/article/details/104669448
+https://blog.csdn.net/asstsui/article/details/90678722
 
+2.下载mysql connect jar包
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
 
-1.执行顺序 
+root / 123456
+
+3.jdbc使用六步
+1）注册驱动
+2）建立连接
+3）创建sql语句执行对象
+4）执行sql语句
+5）处理结果集
+6）关闭连接（按照创建对象的反向关闭，即先创建后关闭）
+
+4.Statement、PreparedStatement使用
+Statement st = conn.createStatement();
+String sql = "select * from student";
+st.excutQuery(sql);
+////////////////////////////////////////////////////////
+String sql = "inset into student (a,b,c) values (?,?,?)";
+PreparedStatement ps = conn.preparedStatement(sql);
+ps.setInt(1,22),
+ps.setString(2,"sdfa");
+ps.excutQuery();//查
+ps.excutUpdate();//增删改
+
+5.jdbc中的事务是自动只要执行任意一条dml语句，则自动提交一次
+解决自动提交问题
+conn.setAutoCommit(false);//关闭自动提交事务
+conn.commit();
+conn.rollback();
+
+6.工具类（构造方法是私有，方法是静态的）
+
+7.悲观锁（行级锁），在一个查询语句后面加 for update，那么在查询语句这个事务完成前其他事务都不能操作；事务必须排队执行，数据锁住了，不允许并发
+乐观锁，支持并发，事务不需要排队，只不过要一个版本号；两个事务修改同一条数据，开始时候两个事务读取到的版本号都为1.1，事务a修改数据后，将版本号改为1.2，事务B来修改的时候发现版本号变为了1.2，和最初读取到的版本号不一致，回滚
 
 ////////////////////////servlet 课程/////////////////////
 一、规范
@@ -486,60 +523,89 @@ response.sendRedirect()//重定向
 	1、介绍：
 		1）一组来自Servlet规范下的接口，共有8个接口。
 		2）监听器接口需要开发人员亲自实现，Http服务器提供jar包并没有对应的实现类
+		
+十五、过滤器Filter
+	1、介绍：
+		1）来自Servlet规范中下的接口
+		2）Filter接口需要开发人员亲自实现，Http服务器提供jar包并没有对应的实现类
+		3）Filter接口在Http服务器调用资源文件之前，对Http服务器进行拦截
+	2.具体作用
+		1）拦截Http服务器，帮助Http服务器检测当前请求的合法性
+		2）拦截Http服务器，对当前请求进行增强操作
+	3、Filter接口实现类开发步骤：
+		1）创建一个Java类实现接口Filter
+		2）重写Filter接口中doFilter
+		3）web.xml将过滤器接口实现类注册到Http服务器
+		
+	4、应用，每个post请求的Servlet中要设置request.setCharacterEncoding("uft-8");用Filter对所有Servlet实现request编码改变
+	5、拦截地址格式：
+	6、恶意登录：
+		1）Filter
+	
+/////////////mybatis/hibernate ORM框架 课程///////////////
+
+/////////////spring课程/////////////////////////
+
+/////////////springmvc课程////////////////////
+
+/////////////maven Gradle///////////////
+
+///////////////tomcat springboot///////////////
+
+//////////////////设计模式//////////////////////////
+
+/////////////////类集框架（数据结构与算法）反射 注解 io 时间类 面向对象 lamda stream /////////////////////
+
+
+
+//////////////了解其他---struts2、hibernate////////////////////////
+///////////////hibernate课程/////////////////
+一、web内容回顾
+	1）javaee三层结构：1）web层-struts 2）service层-spring 3）dao层-hibernate-数据库CRUD
+	2）mvc思想：1）模型 2）视图 3）控制器
+二、hibernate介绍：
+	1）对jdbc进行封装，不需要写复杂jdbc代码，用于dao层
+	2）使用ORM思想对数据库进行CRUD操作
+	3）ORM：Object-Relational-Mapping 对象关系映射（使用配置文件进行对应）
+		1）实体类与数据库表进行一一对应；a.实体类与数据库表对应；b.实体类属性与表里面字段对应
+		2）不需要直接操作数据库表，直接操作表对应的实体类对象
+三、环境搭建
+	1）require，jpa中的jar包+mysql驱动jar包+日志jar包 http://hibernate.org/orm/releases/
+	2）在src下com.itprwe.entity建实体类User
+	3）配置实体类与数据库表一一映射的对关系：
+		使用配置文件实现：1）创建xml格式文件，映射配置文件名称和位置没有固定要求。2）建议在实体类所在的包里创建，实体类名.hbm.xml
+	4）创建hibernate核心配置文件
+		1）核心配置文件格式.xml，位置必须在src下面，名称必须叫hibernate.cfg.xml
+		2）hibernate操作过程中智慧加载核心配置文件，不会加载其他配置文件
+		3）配置核心hibernate文件内容：1）配置数据库信息。2）配置hibernate相关信息。3）把映射文件配置到核心配置文件中
+	5）在src下com.itprwe.dao建CRUD类
+		1)加载核心配置文件： Configuration cfg = new Configuration();cfg.configure();
+		2）创建sessionFactory对象：SessionFactory sessionFactory = cfg.buildSessionFactory();
+		3）sessionFactory创建session对象：Session session =sessionFactory.openSession();
+		4）开启事务:Transaction transaction = session.beginTransaction();
+		5）执行CRUD操作：session.save(user);
+		6）提交事务:transaction.commit();
+		7）关闭资源:session.close();sessionFactory.close();
+四、hibernate的核心API
+	1）Configuration：hibernate配置对象，加载核心配置文件 或 映射文件
+	2）SessionFactory：session工厂
+	3）Session
+	4）Transaction
+	
+
+四、需要掌握
+	1）掌握Hiberate的基本配置——即搭建Hiberate开发环境；
+	2）掌握Hiberate常用API——即如何使用Hiberate框架进行开发；
+	3）掌握Hiberate的关联映射——解决表与表之间存在的关系问题，有1:n(一对多)、 1:1(一对一)、m:n(多对多)关系；
+	4）掌握Hiberate的检索方式——即掌握Hiberate的查询；
+	5）掌握Hiberate的优化方式——即提高Hiberate的效率。
 	
 	
 
-请求与响应
-重定向
-转发
-servletContext
-cookie
-httpsession
-监听器
-过滤器
+///////////struts//////////////////////
+一、struts2概念：
+	1）
 
-
-////////数据库表
-1.安装mysql
-https://www.cnblogs.com/yunlongaimeng/p/12558638.html
-https://blog.csdn.net/mr__sun__/article/details/104669448
-https://blog.csdn.net/asstsui/article/details/90678722
-
-2.下载mysql connect jar包
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '123456';
-
-root / 123456
-
-3.jdbc使用六步
-1）注册驱动
-2）建立连接
-3）创建sql语句执行对象
-4）执行sql语句
-5）处理结果集
-6）关闭连接（按照创建对象的反向关闭，即先创建后关闭）
-
-4.Statement、PreparedStatement使用
-Statement st = conn.createStatement();
-String sql = "select * from student";
-st.excutQuery(sql);
-////////////////////////////////////////////////////////
-String sql = "inset into student (a,b,c) values (?,?,?)";
-PreparedStatement ps = conn.preparedStatement(sql);
-ps.setInt(1,22),
-ps.setString(2,"sdfa");
-ps.excutQuery();//查
-ps.excutUpdate();//增删改
-
-5.jdbc中的事务是自动只要执行任意一条dml语句，则自动提交一次
-解决自动提交问题
-conn.setAutoCommit(false);//关闭自动提交事务
-conn.commit();
-conn.rollback();
-
-6.工具类（构造方法是私有，方法是静态的）
-
-7.悲观锁（行级锁），在一个查询语句后面加 for update，那么在查询语句这个事务完成前其他事务都不能操作；事务必须排队执行，数据锁住了，不允许并发
-乐观锁，支持并发，事务不需要排队，只不过要一个版本号；两个事务修改同一条数据，开始时候两个事务读取到的版本号都为1.1，事务a修改数据后，将版本号改为1.2，事务B来修改的时候发现版本号变为了1.2，和最初读取到的版本号不一致，回滚
 
 
 
